@@ -2,7 +2,8 @@ import discord
 from discord.ext import commands
 import newfile
 import sqlite3
-		
+
+#Here is the token, bish
 def read_token ():
 	with open("token.txt", "r") as f:
 		lines = f.readlines()
@@ -31,6 +32,6 @@ async def join(ctx, category):
 		categdict = {'Cleric': [5, 10, 25], 'Knight': [15, 20, 10], 'Barbarian': [15, 15, 15], 'Castellan': [25, 15, 5], 'Hunter': [10, 15, 20]}
 		newfile.data_entry(c, ctx.author.name, category, 0, 0, 0, categdict[category], conn)
 	else:
-		await ctx.send(f'{category} is not a valid category. Try joining as {categlist}.')
+		await ctx.send(f'{category} is not a valid category. Try joining as {cate,glist}.')
 	
 AdventBot.run(token)
