@@ -23,8 +23,9 @@ async def intro(ctx):
 async def join(ctx, category):
 	categlist = ["Cleric", "Knight", "Barbarian", "Castellan", "Hunter"]
 	conn = sqlite3.connect('database.db')
+	conn.execute("PRAGMA foreign_keys = 1")
 	c = conn.cursor()
-	newfile.create_table(c)
+	newfile.create_table(conn, c)
 	if category in categlist:
 		await ctx.send(f'You have joined the Adventure as {ctx.author.name}, a {category}.\nYou stand at level 0 and have 0 money. Let the adventure begin!!!')
 		categdict = {'Cleric': [5, 10, 25], 'Knight': [15, 20, 10], 'Barbarian': [15, 15, 15], 'Castellan': [25, 15, 5], 'Hunter': [10, 15, 20]}
