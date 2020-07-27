@@ -33,5 +33,5 @@ async def join(ctx, category):
 		newfile.data_entry(c, ctx.author.name, category, 0, 0, 0, categdict[category], conn)
 	else:
 		await ctx.send(f'{category} is not a valid category. Try joining as {cate,glist}.')
-	
+#and here it runs
 AdventBot.run(token)
