@@ -20,6 +20,18 @@ def data_entry(c, name, category, level, money, experience, statlist, mainItem, 
 	c.execute ("INSERT INTO UserCredentials (name, category, level, money, experience, defence, attack, magic, mainItem) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (name, category, level, money, experience, statlist[0], statlist [1], statlist [2], mainItem))
 	conn.commit()
 
+def getall(name, c, category, level, money, experience, defence, attack, magic, mainItem):
+	c.execute('SELECT category, level, money, experience, defence, attack, magic, mainItem FROM UserCredentials WHERE name = (?)', (name,))
+	data = c.fetchall()
+	category = data [0][0]
+	level = data[0][1]
+	money = data[0][2]
+	experience = data[0][3]
+	defence = data[0][4]
+	attack = data[0][5]
+	magic = data[0][5]
+	mainItem = data[0][6]
+
 def get_camp_info(name, c, level, categ):
 	c.execute('SELECT category, level  FROM UserCredentials WHERE name = (?)', (name,))
 	data = c.fetchall()

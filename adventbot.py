@@ -66,6 +66,21 @@ async def campaign(ctx):
 	newfile.campaign_update(ctx.author.name, c, exp, conn)
 	await ctx.send(f'{exp} experience received!!!')
 	
-		
+@AdventBot.command()
+async def stats(ctx):
+	conn = sqlite3.connect('database.db')
+	c = conn.cursor()
+	c.execute('SELECT category, level, money, experience, defence, attack, magic, mainItem FROM UserCredentials WHERE name = (?)', (ctx.author.name,))
+	data = c.fetchall()
+	category = data [0][0]
+	level = int(data[0][1])
+	money = int(data[0][2])
+	experience = int(data[0][3])
+	defence = int(data[0][4])
+	attack = int(data[0][5])
+	magic = int(data[0][6])
+	mainItem = data[0][7]
+	embedVar = discord.Embed(title = ctx.author.name, description = f'You are a {category} and currently stand at Level {level} with {experience} experience. You have {money} money.\n\nDefence:{defence}\nAttack:{attack}\nMagic:{magic}\nYour main weapon right now is {mainItem}.')
+	await ctx.send(embed = embedVar)
 	
 AdventBot.run(token)
