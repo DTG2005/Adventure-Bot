@@ -38,3 +38,23 @@ level_exp_list = { '0': [5, 20],
 '3': [20, 50],
 '4': [25, 60],
 '5': [30, 70]}
+
+def lvl_dict(dict1, level, exp):
+	if level >= 0:
+		dict1['c'].append(f'You went out to resesrch on some magical herbs. You found a handful of some, which the children took away, and {exp} experience.')
+		dict1['c'].append(f'You tried your magic on the wooden pole. You got {exp} experience.')
+		dict1['h'].append(f'You meditated besides the waterfall. You got {exp} experience.')
+		dict1['h'].append(f'You hunted a bear with your magic. Uou got {exp} experience.')
+		dict1['b'].append(f'You practiced by swinging that mace of yours around. You got {exp} experience.')
+		dict1['b'].append(f'You lit a fire and roasted a turkey. A hyena tried snatching your fill but you killed it and took him as your fill too. You got {exp} experience.')
+		dict1['k'].append(f'You practiced your march. You got {exp} experience.')
+		dict1['k'].append(f'You swing that sword ferociously, beheading the imaginary dragon. You get an imaginary dragon\'s tooth and {exp} experience.')
+		dict1['ca'].append(f'You practiced punching with your gauntlet. You gained {exp} experience.')
+		dict1['ca'].append(f'You tried reasoning with the local gang\'s henchmen. They were threatened and ran away, while you earned {exp} experience.')
+		
+	return dict1
+		
+		
+def levelup(exp, level):
+	if int(exp) >= 2*100*(int(level)+1):
+		return "Level Up!!! You are now Level {level}"

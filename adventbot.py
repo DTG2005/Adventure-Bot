@@ -4,7 +4,9 @@ import newfile
 import class_descriptions
 import random
 import sqlite3
-		
+
+conn = sqlite3.connect('database.db')	
+conn.execute("PRAGMA foreign_keys = 1")	
 def read_token ():
 	with open("token.txt", "r") as f:
 		lines = f.readlines()
@@ -25,8 +27,6 @@ async def intro(ctx):
 
 @AdventBot.command()
 async def join(ctx, category):
-	conn = sqlite3.connect('database.db')
-	conn.execute("PRAGMA foreign_keys = 1")
 	c = conn.cursor()
 	newfile.create_table(conn, c)
 	if category in categlist:
@@ -52,19 +52,28 @@ async def classinfo(ctx, vclass):
 
 @AdventBot.command()
 async def campaign(ctx):
-	conn = sqlite3.connect('database.db')
-	conn.execute("PRAGMA foreign_keys = 1")
 	c = conn.cursor()
 	try:
-		c.execute('SELECT category, level  FROM UserCredentials WHERE name = (?)', (ctx.author.name,))
+		c.execute('SELECT category, level, experience FROM UserCredentials WHERE name = (?)', (ctx.author.name,))
 		data = c.fetchall()
 		categ = data[0][0]
+		experience = int(data [0][2])
 		level = data[0][1]
 	except:
 		await ctx.send('You don\'t seem to have joined. You can do --join "category" now to do so.')
+		
 	exp = random.randint(class_descriptions.level_exp_list[str(level)][0], class_descriptions.level_exp_list[str(level)][1])
-	newfile.campaign_update(ctx.author.name, c, exp, conn)
-	await ctx.send(f'{exp} experience received!!!')
+	experience += exp
+	
+	dict1 = {'c': [f'You looked in your wizardry books to revise. You got {exp} experience.'], 'h': [f'You practiced hitting the target with your bow. You got {exp} experience.'], 'b':[f'You tried learning the tongue of the civilised. You got {exp} experience.'], 'k':[f'You went to the Priestess of the Church for some "Holy Training". You got {exp} experience.'], 'ca': [f'You reasoned with some traders to reduce the taxes. You succeeded, however getting a handful of curses and {exp} experience']}
+	
+	dict10 = class_descriptions.lvl_dict(dict1, int(level), exp)
+	await ctx.send(random.choice(dict10[class_descriptions.Categ_determiner[categ]]))
+	if experience < 2*100*(int(level)+1):
+		newfile.campaign_update(ctx.author.name, c, experience, conn, level)
+	else:
+		await ctx.send("Level up!!!")
+		newfile.campaign_update(ctx.author.name, c, experience, conn, int(level)+1)
 	
 @AdventBot.command()
 async def stats(ctx):

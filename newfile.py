@@ -38,7 +38,7 @@ def get_camp_info(name, c, level, categ):
 	categ = data[0][0]
 	level = data[0][1]
 
-def campaign_update(name, c, exp, conn):
-	c.execute('UPDATE UserCredentials SET experience = (?) WHERE name = (?)', (exp, name))
+def campaign_update(name, c, exp, conn, level):
+	c.execute('UPDATE UserCredentials SET experience = (?), level = (?) WHERE name = (?)', (exp, level, name))
 	conn.commit()
 	
