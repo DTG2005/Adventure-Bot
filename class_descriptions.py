@@ -39,7 +39,7 @@ level_exp_list = { '0': [5, 20],
 '4': [25, 60],
 '5': [30, 70]}
 
-def lvl_dict(dict1, level, exp):
+def lvl_dict(dict1, level, exp, item):
 	if level >= 0:
 		dict1['c'].append(f'You went out to resesrch on some magical herbs. You found a handful of some, which the children took away, and {exp} experience.')
 		dict1['c'].append(f'You tried your magic on the wooden pole. You got {exp} experience.')
@@ -51,6 +51,11 @@ def lvl_dict(dict1, level, exp):
 		dict1['k'].append(f'You swing that sword ferociously, beheading the imaginary dragon. You get an imaginary dragon\'s tooth and {exp} experience.')
 		dict1['ca'].append(f'You practiced punching with your gauntlet. You gained {exp} experience.')
 		dict1['ca'].append(f'You tried reasoning with the local gang\'s henchmen. They were threatened and ran away, while you earned {exp} experience.')
+		
+	if level>=1:
+		dict1['c'].append(f'You tried conjuring a wand out. You got {exp} experience and an {item}')
+		dict1['c'].append(f'You ventured into the wild to gather some plants for a ritual. The ritual provided you with {exp} experience and an {item}')
+#		dict1[]
 		
 	return dict1
 		

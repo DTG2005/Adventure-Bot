@@ -32,11 +32,11 @@ async def join(ctx, category):
 	if category in categlist:
 		categdict = {'Cleric': [5, 10, 25], 'Knight': [15, 20, 10], 'Barbarian': [15, 15, 15], 'Castellan': [25, 15, 5], 'Hunter': [10, 15, 20]}
 		categitem = {'Cleric': 'Broken_Staff', 'Knight': 'Stone Crudesword', 'Barbarian': 'Wooden Mace', 'Castellan': 'Stone Gauntlet', 'Hunter': 'Wooden Bow'}
-		try:
-			newfile.data_entry(c, ctx.author.name, category, 0, 0, 0, categdict[category], categitem[category], conn)
-			await ctx.send(f'You have joined the Adventure as {ctx.author.name}, a {category}.\nYou stand at level 0 and have 0 money. Let the adventure begin!!!')
-		except sqlite3.Error as error:
-			await ctx.send('You have already joined! You need not join again.')
+#		try:
+		newfile.data_entry(c, ctx.author.name, category, 0, 0, 0, categdict[category], categitem[category], conn)
+		await ctx.send(f'You have joined the Adventure as {ctx.author.name}, a {category}.\nYou stand at level 0 and have 0 money. Let the adventure begin!!!')
+#		except sqlite3.Error as error:
+#			await ctx.send('You have already joined! You need not join again.')
 			
 	else:
 		await ctx.send(f'{category} is not a valid category. Try joining as {categlist[0]}, {categlist[1]}, {categlist[2]}, {categlist[3]}, or {categlist[4]}.')
@@ -91,5 +91,10 @@ async def stats(ctx):
 	mainItem = data[0][7]
 	embedVar = discord.Embed(title = ctx.author.name, description = f'You are a {category} and currently stand at Level {level} with {experience} experience. You have {money} money.\n\nDefence:{defence}\nAttack:{attack}\nMagic:{magic}\nYour main weapon right now is {mainItem}.')
 	await ctx.send(embed = embedVar)
+	
+@AdventBot.command()
+async def item(ctx, itemName):
+	itemlist = ['']
+		
 	
 AdventBot.run(token)
