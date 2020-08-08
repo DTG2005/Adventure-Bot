@@ -1,3 +1,5 @@
+import random
+
 categdesc = {'Cleric': 'A Cleric is a Powerful wizard adept in many arts, light and dark alike. His sorcery has greatly reduced his physical strength, but he still stands undefeated in his magical feats. If nothing, he can still entertain your children with his tricks of pulling carrots from a nose.\n\nDefence Base Value: 5\nAttack Base Value: 10\nMagic Base Value: 25',
 		 'Knight': 'A Knight is a pure warrior, a race of humans focused on fighting with a moral intent. They have never seen defeat, for they would choose an honourable death over it anyday. However, they don\'t speak much, which is why you\'re never sure if they\'re really warriors or robots.\n\nDefence Base Value: 15\nAttack Base Value: 20\nMagic Base Value: 10',
 		  'Barbarian': 'Barbarians, like their names, are plain barbarians. No really, they are just wild warriors who have come to naturally master the arts of survival, giving them a completely balanced control over their Physical as well as Magical strengths. But they\'re known to be a little grumpy so do take care.\n\nDefence Base Value: 15\nAttack Base Value: 15\nMagic Base Value: 15',
@@ -39,7 +41,7 @@ level_exp_list = { '0': [5, 20],
 '4': [25, 60],
 '5': [30, 70]}
 
-def lvl_dict(dict1, level, exp, item):
+def lvl_dict(dict1, level, exp):
 	if level >= 0:
 		dict1['c'].append(f'You went out to resesrch on some magical herbs. You found a handful of some, which the children took away, and {exp} experience.')
 		dict1['c'].append(f'You tried your magic on the wooden pole. You got {exp} experience.')
@@ -58,12 +60,6 @@ def lvl_dict(dict1, level, exp, item):
 #		dict1[]
 		
 	return dict1
-		
-		
-def levelup(exp, level):
-	if int(exp) >= 2*100*(int(level)+1):
-		return "Level Up!!! You are now Level {level}"
-
 
 collectibleDesc = { "Wood": ("This is the basic material all adventurers start with. It is so common infact you can find it in your backyard.", "Common"),
  "Iron": ("Found with easily, this material is what everyone would use for a good brush up weapon. Equipment made from it are durable but sometimes weak.", "Common"),
@@ -76,3 +72,15 @@ collectibleDesc = { "Wood": ("This is the basic material all adventurers start w
  "Oharium": ("The pale green metal known only to a few, this metal is so precious you can buy an entire kingdom with just a bar. And so strong it can make a warrior stronger than an army of thousands.", "Legendary") }
  
 rarityColour = {"Common": 'a5a5a5', "Rare": '0093ff', "Epic": '9e00ff', "Legendary": 'f1e100'}
+
+def itemRarity():
+	if random.randint(0, 40) == 1:
+		return 'Legendary'
+	elif random.randint(0, 10) == 1:
+		return 'Epic'
+	elif random.randint(0, 10) < 4:
+		return 'Rare'
+	else:
+		return 'Common'
+		
+Items = {'Common': ['Wood', 'Iron'], 'Rare': ['Amethyst', 'Silver'], 'Epic': ['Gold', 'Electrum', 'Petronacium'], 'Legendary': ['Zyber', 'Oharium']}

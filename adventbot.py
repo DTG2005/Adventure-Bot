@@ -51,6 +51,7 @@ async def classinfo(ctx, vclass):
 		await ctx.send(f'{vclass} is not a suitable class. Try any one of {categlist[0]}, {categlist[1]}, {categlist[2]}, {categlist[3]}, or {categlist[4]}.')
 
 @AdventBot.command()
+@commands.cooldown(1, 1800, commands.BucketType.user)
 async def campaign(ctx):
 	c = conn.cursor()
 	try:
@@ -75,6 +76,15 @@ async def campaign(ctx):
 		await ctx.send("Level up!!!")
 		newfile.campaign_update(ctx.author.name, c, experience, conn, int(level)+1)
 	
+@campaign.error
+async def campaign_error(ctx, error):
+	if isinstance(error, commands.CommandOnCooldown):
+		await ctx.send(f"Your Character is tired from going on a campaign. Try again after resting {int(error.retry_after/60)} minutes and {int(error.retry_after%60)} seconds.")
+
+@AdventBot.command()
+async def mine(ctx):
+	await ctx.send(random.choice(class_descriptions.Items[class_descriptions.itemRarity()]))
+
 @AdventBot.command()
 async def stats(ctx):
 	conn = sqlite3.connect('database.db')
