@@ -63,3 +63,16 @@ def lvl_dict(dict1, level, exp, item):
 def levelup(exp, level):
 	if int(exp) >= 2*100*(int(level)+1):
 		return "Level Up!!! You are now Level {level}"
+
+
+collectibleDesc = { "Wood": ("This is the basic material all adventurers start with. It is so common infact you can find it in your backyard.", "Common"),
+ "Iron": ("Found with easily, this material is what everyone would use for a good brush up weapon. Equipment made from it are durable but sometimes weak.", "Common"),
+ "Amethyst": ("Also known as the purple stone of doom, this gemstone is priced by wizards for its rarity and magical powers.", "Rare"),
+ "Silver": ("Only the most skilled craftspeople know that Silver can be used for more intricate weaponry and armoury. This fragile metal when handled in the right way can be the perfection for a right warrior, and a power boost for a wizard.", "Rare"),
+ "Gold": ("The shining yellow metal every living being covetes, but few know its true usage. This metal makes the difference between a kill and a death.", "Epic"),
+ "Electrum": ("The mixture of Gold and Silver gives you the mighty Electrum. Mightier than the mightiest steel swords, this can be a fatal metal for your enemies.", "Epic"),
+ "Petronacium": ("The coveted Red coloured gemstone of the distant lands, this stone is what the most skilled sorcerors use in their endeavours. You shall be more than just lucky to find these.", "Epic"),
+ "Zyber": ("The mythical yellow gemstone that is known to bestow unparalleled magical powers to the wielder. Using this in your equipment could make you nothing less than a God.", "Legendary"),
+ "Oharium": ("The pale green metal known only to a few, this metal is so precious you can buy an entire kingdom with just a bar. And so strong it can make a warrior stronger than an army of thousands.", "Legendary") }
+ 
+rarityColour = {"Common": 'a5a5a5', "Rare": '0093ff', "Epic": '9e00ff', "Legendary": 'f1e100'}
