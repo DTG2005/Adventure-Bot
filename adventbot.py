@@ -82,8 +82,43 @@ async def campaign_error(ctx, error):
 		await ctx.send(f"Your Character is tired from going on a campaign. Try again after resting {int(error.retry_after/60)} minutes and {int(error.retry_after%60)} seconds.")
 
 @AdventBot.command()
+@commands.cooldown(1, 1800, commands.BucketType.user)
 async def mine(ctx):
-	await ctx.send(random.choice(class_descriptions.Items[class_descriptions.itemRarity()]))
+	rarity = class_descriptions.itemRarity()
+	Item = random.choice(class_descriptions.Items[rarity])
+	int1 = random.randint(class_descriptions.rarityItemRandom[rarity][0], class_descriptions.rarityItemRandom[rarity][1])
+	woodResponses = {"c": f"After a lot of magical practice you could chop down the small tree in your backyard. You got {int1} wood.",
+"h": f"You smashed down an entire tree using your strength. You got {int1} wood.",
+'b': f"You just gutted an entire tree as if it were some small sapling. You got {int1} wood.",
+'k': f"As the church ordered, you chopped down an unholy tree. The church lets you keep {int1} wood.",
+'ca': f"You ordered your royal servants to chop you some wood. They got you {int1} wood."}
+
+	mineResponses = { "c": f"You mined for an hour and could finally get {int1} {Item}.",
+"h": f"You went into the cave to take whatever mother earth had to offer. You got {int1} {Item}.",
+"b": f"You saw something shiny on the rock and kept hitting it for some minutes. It broke and gave you {int1} {Item}.",
+"k": f"You went into the cave to mine into a vein of {Item}. You found {int1} of it.",
+"ca": f'You ordered your miners to bring you a lot of {Item}. They couldn\'t find a lot there but only {int1}'}
+	c = conn.cursor()
+	try:
+		categ = newfile.getCateg(ctx.author.name, c, conn)
+	except sqlite3.error as error:
+		ctx.send("You haven't joined yet. Do the join command: --join to join now!!!")
+	categChar = class_descriptions.Categ_determiner[categ]
+	if Item == "Wood":
+		await ctx.send(woodResponses[categChar])
+	else:
+		await ctx.send(mineResponses[categChar])
+	try:
+		newfile.collectibleInsert(c, conn, ctx.author.name, Item, int1)
+	except sqlite3.error as error:
+		data = newfile.collectibleUpdateInfo(c, ctx.author.name, Item)
+		int1 += data[0][0]
+		newfile.collectibleUpdate(conn, c, ctx.author.name, Item, int1)
+
+@mine.error
+async def mine_error(ctx, error):
+	if isinstance(error, commands.CommandOnCooldown):
+		await ctx.send(f"Your Character can only mine once in 30 minutes. You can try again in {int(error.retry_after/60)} minutes and {int(error.retry_after%60)} seconds.")
 
 @AdventBot.command()
 async def stats(ctx):

@@ -55,8 +55,8 @@ def lvl_dict(dict1, level, exp):
 		dict1['ca'].append(f'You tried reasoning with the local gang\'s henchmen. They were threatened and ran away, while you earned {exp} experience.')
 		
 	if level>=1:
-		dict1['c'].append(f'You tried conjuring a wand out. You got {exp} experience and an {item}')
-		dict1['c'].append(f'You ventured into the wild to gather some plants for a ritual. The ritual provided you with {exp} experience and an {item}')
+		dict1['c'].append(f'You tried conjuring a wand out. You got {exp} experience.')
+		dict1['c'].append(f'You ventured into the wild to gather some plants for a ritual. The ritual provided you with {exp} experience.')
 #		dict1[]
 		
 	return dict1
@@ -82,5 +82,7 @@ def itemRarity():
 		return 'Rare'
 	else:
 		return 'Common'
-		
+
+rarityItemRandom = { "Common": [1, 10], "Rare": [1, 5], "Epic": [1, 3], "Legendary": [1, 2]}
+
 Items = {'Common': ['Wood', 'Iron'], 'Rare': ['Amethyst', 'Silver'], 'Epic': ['Gold', 'Electrum', 'Petronacium'], 'Legendary': ['Zyber', 'Oharium']}
