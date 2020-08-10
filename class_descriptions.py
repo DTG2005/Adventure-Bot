@@ -85,4 +85,4 @@ def itemRarity():
 
 rarityItemRandom = { "Common": [1, 10], "Rare": [1, 5], "Epic": [1, 3], "Legendary": [1, 2]}
 
-Items = {'Common': ['Wood', 'Iron'], 'Rare': ['Amethyst', 'Silver'], 'Epic': ['Gold', 'Electrum', 'Petronacium'], 'Legendary': ['Zyber', 'Oharium']}
+Items = {'Common': ['Wood', 'Iron'], 'Rare': ['Amethyst', 'Silver'], 'Epic': ['Gold', 'Petronacium'], 'Legendary': ['Zyber', 'Oharium']}

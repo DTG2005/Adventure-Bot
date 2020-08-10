@@ -11,7 +11,7 @@ def create_table(conn, c):
 	
 	c.execute('CREATE TABLE IF NOT EXISTS Inventory(name TEXT, item_name TEXT, number_held INTEGER, FOREIGN KEY(item_name) REFERENCES Items(item_name))')
 
-	c.execute('CREATE TABLE IF NOT EXISTS Collectibles (name TEXT, collectible TEXT, number_held INTEGER, UNIQUE (name, collectible))')
+	c.execute('CREATE TABLE IF NOT EXISTS Collectibles (name TEXT, collectible TEXT, number_held INTEGER)')
 				
 	c.execute('CREATE TABLE IF NOT EXISTS UserCredentials(name TEXT, category TEXT, level TEXT, money INTEGER, experience INTEGER, defence INTEGER, attack INTEGER, magic INTEGER, mainItem TEXT, FOREIGN KEY (name) REFERENCES Equipped(name))')
 	conn.commit()
@@ -62,3 +62,8 @@ def collectibleUpdateInfo(c, name, item):
 def collectibleUpdate(conn, c, name, item, numb):
 	c.execute("UPDATE Collectibles SET number_held = (?) WHERE (name, collectible) = (?,?)", (numb, name, item))
 	conn.commit()
+	
+def collectibleInventory(c, conn, name):
+	c.execute("SELECT collectible, number_held FROM Collectibles WHERE name = (?)", (name,))
+	data = c.fetchall()
+	return data

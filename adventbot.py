@@ -122,21 +122,36 @@ async def mine_error(ctx, error):
 
 @AdventBot.command()
 async def stats(ctx):
-	conn = sqlite3.connect('database.db')
+	try:
+		c = conn.cursor()
+		c.execute('SELECT category, level, money, experience, defence, attack, magic, mainItem FROM UserCredentials WHERE name = (?)', (ctx.author.name,))
+		data = c.fetchall()
+		category = data [0][0]
+		level = int(data[0][1])
+		money = int(data[0][2])
+		experience = int(data[0][3])
+		defence = int(data[0][4])
+		attack = int(data[0][5])
+		magic = int(data[0][6])
+		mainItem = data[0][7]
+		embedVar = discord.Embed(title = ctx.author.name, description = f'You are a {category} and currently stand at Level {level} with {experience} experience. You have {money} money.\n\nDefence:{defence}\nAttack:{attack}\nMagic:{magic}\nYour main weapon right now is {mainItem}.')
+		await ctx.send(embed = embedVar)
+	except:
+		await ctx.send("You haven't joined yet. Try joining now!")
+
+@AdventBot.command()
+async def inventory(ctx):
 	c = conn.cursor()
-	c.execute('SELECT category, level, money, experience, defence, attack, magic, mainItem FROM UserCredentials WHERE name = (?)', (ctx.author.name,))
-	data = c.fetchall()
-	category = data [0][0]
-	level = int(data[0][1])
-	money = int(data[0][2])
-	experience = int(data[0][3])
-	defence = int(data[0][4])
-	attack = int(data[0][5])
-	magic = int(data[0][6])
-	mainItem = data[0][7]
-	embedVar = discord.Embed(title = ctx.author.name, description = f'You are a {category} and currently stand at Level {level} with {experience} experience. You have {money} money.\n\nDefence:{defence}\nAttack:{attack}\nMagic:{magic}\nYour main weapon right now is {mainItem}.')
+#	try:
+	data1 = newfile.collectibleInventory(c, conn, ctx.author.name)
+	embedVar = discord.Embed(title = ctx.author.name, description = "Your inventory contains the following items:-")
+	for collectible in data1:
+		embedVar.add_field(name = collectible[0], value = collectible[1])
 	await ctx.send(embed = embedVar)
+#	except:
+#		await ctx.send("You don't have any collectible in your inventory. You can do --mine per 30 minutes to collect some.")
 	
+
 @AdventBot.command()
 async def collectible(ctx, itemName):
 	collectibleList = ["Wood", "Iron", "Amethyst", "Silver", 'Electrum',"Gold", "Petronacium", "Zyber", "Oharium"]
@@ -145,8 +160,9 @@ async def collectible(ctx, itemName):
 		embedVar.add_field(name = "Rarity",  value = class_descriptions.collectibleDesc[itemName][1])
 		await ctx.send(embed = embedVar)
 	else:
-		await ctx.send("Item not found. Try one out of the list below:-")
+		embedVar =discord.Embed(title = "Collectible not found!", description = "The collectible you were looking for was not found. Try one of the following:-", color = discord.Color(value = int("ff0000", 16)))
 		for stuff in collectibleList:
-			await ctx.send(f'{stuff}\n')
+			embedVar.add_field(name=stuff, value = class_descriptions.collectibleDesc[stuff][1], inline = False)
+		await ctx.send(embed = embedVar)
 	
 AdventBot.run(token)
