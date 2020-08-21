@@ -7,9 +7,7 @@ c = conn.cursor()
 def create_table(conn, c):
 	c.execute('CREATE TABLE IF NOT EXISTS Equipped(name TEXT PRIMARY KEY, Headgear TEXT, Armour TEXT, Lower TEXT, Boots TEXT)')
 	
-	c.execute('CREATE TABLE IF NOT EXISTS Items(item_name TEXT PRIMARY KEY, type TEXT, subtype TEXT)')
-	
-	c.execute('CREATE TABLE IF NOT EXISTS Inventory(name TEXT, item_name TEXT, number_held INTEGER, FOREIGN KEY(item_name) REFERENCES Items(item_name))')
+	c.execute('CREATE TABLE IF NOT EXISTS Inventory(name TEXT, item_name TEXT, number_held INTEGER, UNIQUE (name, item_name))')
 
 	c.execute('CREATE TABLE IF NOT EXISTS Collectibles (name TEXT, collectible TEXT, number_held INTEGER)')
 				
@@ -55,15 +53,34 @@ def collectibleInsert(c, conn, name, item, number):
 	conn.commit()
 	
 def collectibleUpdateInfo(c, name, item):
-	c.execute("SELECT number_held FROM Collectibles WHERE (name, collectible) = (?,?)", (name, item))
+	c.execute("SELECT number_held FROM Collectibles WHERE name = (?) AND collectible = (?)", (name, item))
 	data = c.fetchall()
 	return data
 	
 def collectibleUpdate(conn, c, name, item, numb):
-	c.execute("UPDATE Collectibles SET number_held = (?) WHERE (name, collectible) = (?,?)", (numb, name, item))
+	c.execute("UPDATE Collectibles SET number_held = (?) WHERE name = (?) AND  collectible = (?)", (numb, name, item))
 	conn.commit()
-	
+
+def getCraftData(c, conn, name, requirement):
+	c.execute("SELECT number_held FROM Collectibles WHERE name = ? AND collectible = ?", (name, requirement))
+	data = c.fetchall()
+	return data
+
 def collectibleInventory(c, conn, name):
 	c.execute("SELECT collectible, number_held FROM Collectibles WHERE name = (?)", (name,))
 	data = c.fetchall()
 	return data
+	
+def craftableEntry(c, conn, name, craftable):
+	c.execute("INSERT INTO Inventory(name, item_name, number_held) VALUES (?,?,1)", (name, craftable))
+	conn.commit()
+	
+def getCraftableData(c, conn, name, craftable):
+	c.execute("SELECT number_held FROM Inventory WHERE name = (?) AND item_name = (?)", (name, craftable))
+	data = c.fetchall()
+	return data
+	
+def updateCraftable(c, conn, num, name, craftable):
+	c.execute("UPDATE Inventory SET number_held = (?) WHERE name = (?) AND item_name = (?)", (num, name, craftable))
+	conn.commit()
+

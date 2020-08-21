@@ -108,10 +108,10 @@ async def mine(ctx):
 		await ctx.send(woodResponses[categChar])
 	else:
 		await ctx.send(mineResponses[categChar])
-	try:
+	data = newfile.collectibleUpdateInfo(c, ctx.author.name, Item)
+	if not data:
 		newfile.collectibleInsert(c, conn, ctx.author.name, Item, int1)
-	except sqlite3.error as error:
-		data = newfile.collectibleUpdateInfo(c, ctx.author.name, Item)
+	else:
 		int1 += data[0][0]
 		newfile.collectibleUpdate(conn, c, ctx.author.name, Item, int1)
 
@@ -119,6 +119,33 @@ async def mine(ctx):
 async def mine_error(ctx, error):
 	if isinstance(error, commands.CommandOnCooldown):
 		await ctx.send(f"Your Character can only mine once in 30 minutes. You can try again in {int(error.retry_after/60)} minutes and {int(error.retry_after%60)} seconds.")
+
+@AdventBot.command()
+async def craft(ctx, *, craftable):
+	c = conn.cursor()
+	if craftable in class_descriptions.Crafting_Dict:
+		required = list(class_descriptions.Crafting_Dict[craftable].keys())[0]
+		collected = newfile.getCraftData(c, conn, ctx.author.name, required)
+		if collected:
+			if collected[0][0] >= class_descriptions.Crafting_Dict[craftable][required]:
+				await ctx.send(f"You have crafted a {collectible}!!")
+				collectnum = newfile.getCraftableData(c, conn, ctx.author.name, craftable)
+				if not collectnum:
+					newfile.craftableEntry(c, conn, ctx.author.name, craftable)
+				else:
+					collectnum1 = collectnum[0][0]
+					collectnum1 += 1
+					newfile.updateCraftable(c, conn, collectnum1, ctx.author.name, craftable)
+					newfile.collectibleUpdate(conn, c, ctx.author.name, required, collected[0][0] - class_descriptions.Crafting_Dict[craftable][required])
+						
+			else:
+				await ctx.send(f"You have too less of {required} to craft {craftable}. You should try mining more.")
+				
+		elif not collected:
+			await ctx.send("You don't have any material of this kind. Try collecting some by mining.")
+	else:
+		await ctx.send("You cannot craft this material.")
+			
 
 @AdventBot.command()
 async def stats(ctx):
@@ -140,17 +167,30 @@ async def stats(ctx):
 		await ctx.send("You haven't joined yet. Try joining now!")
 
 @AdventBot.command()
-async def inventory(ctx):
+async def inventory(ctx, member: discord.Member = None):
+	if member is None:
+		member = ctx.author
+		
 	c = conn.cursor()
-#	try:
-	data1 = newfile.collectibleInventory(c, conn, ctx.author.name)
-	embedVar = discord.Embed(title = ctx.author.name, description = "Your inventory contains the following items:-")
-	for collectible in data1:
-		embedVar.add_field(name = collectible[0], value = collectible[1])
-	await ctx.send(embed = embedVar)
-#	except:
-#		await ctx.send("You don't have any collectible in your inventory. You can do --mine per 30 minutes to collect some.")
+	try:
+		data1 = newfile.collectibleInventory(c, conn, member.name)
+		embedVar = discord.Embed(title = member.name , description = "Your inventory contains the following items:-")
+		for collectible in data1:
+			embedVar.add_field(name = collectible[0], value = collectible[1])
+		await ctx.send(embed = embedVar)
+	except:
+		await ctx.send("You don't have any collectible in your inventory. You can do --mine per 30 minutes to collect some.")
 	
+@AdventBot.command()
+async def craftable(ctx, *, ItemName):
+	try:
+		embedVar = discord.Embed(title = ItemName, description = class_descriptions.Craftables[ItemName]["Description"], colour = discord.Color(value=int(class_descriptions.rarityColour[class_descriptions.Craftables[ItemName]["Rarity"]], 16)))
+		for key in class_descriptions.Craftables[ItemName]:
+			if key != "Description":
+				embedVar.add_field(name = key, value = class_descriptions.Craftables[ItemName][key])
+		await ctx.send(embed = embedVar)
+	except:
+		await ctx.send("Item not found!!")
 
 @AdventBot.command()
 async def collectible(ctx, itemName):

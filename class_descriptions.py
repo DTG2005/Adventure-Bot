@@ -86,3 +86,63 @@ def itemRarity():
 rarityItemRandom = { "Common": [1, 10], "Rare": [1, 5], "Epic": [1, 3], "Legendary": [1, 2]}
 
 Items = {'Common': ['Wood', 'Iron'], 'Rare': ['Amethyst', 'Silver'], 'Epic': ['Gold', 'Petronacium'], 'Legendary': ['Zyber', 'Oharium']}
+
+Craftables = {"Wooden Staff": {"Description": "This is a random wooden staff. Nothing magical. You should doubt if it even casts spells hah!",
+"Type":"Staff",
+"Attack Boost":"2%",
+"Magic Boost":"1%",
+"Requirements" : "Wood : 3",
+"Rarity" : "Common", 
+"Equippable Classes":"Cleric, Hunter"},
+
+"Wooden Sword": {"Description":"This wooden sword has nothing special except lightness and somewhat sharpness.",
+"Type":"Sword",
+"Attack Boost":"2%",
+"Requirements": "**Wood**: 5",
+"Rarity":"Common",
+"Equippable Classes":"Castellan, Knight"},
+
+"Wooden Mace": {"Description": "This is basically a clublike weapon made out of wood with a basic boost to attacks.", 
+"Attack boost": "3%", 
+"Type": "Mace",
+"Requirements": "**Wood**:6", 
+"Rarity" : "Common",
+"Eqippable Classes":  "Barbarian, Castellan"},
+
+"Wooden Helmet": {"Description": "The helmet made out of wood. Can be chopped as easily as wood.",
+"Defence boost":"3%",
+"Type": "Headgear",
+"Requirements": "**Wood**: 3",
+"Rarity": "Common",
+"Equippable Classes": "All"},
+
+"Wooden Mask":{"Description" : "The mask made out of wood. It does give a small boost to magic, but nearly no defence boost at all.",
+"Defence Boost": "1%",
+"Magic Boost": "2%",
+"Type": "Mask",
+"Requirements": "**Wood**: 2",
+"Rarity": "Common",
+"Equippable Classes": "Cleric, Hunter"},
+
+"Iron Sword": {"Description": "Do not be deceived by how easy it is to craft it. It is a sturdy and powerful starter weapon.",
+"Attack Boost" : "3%",
+"Type": "Sword",
+"Requirements": "**Iron**: 3",
+"Rarity": "Common",
+"Equippable Classes": "Knight, Castellan"},
+
+"Iron Club": {"Description": "Perhaps a little rusty, this club actually is a good weapon for flattening your enemy's curves.",
+"Attack Boost": "5%",
+"Type": "Mace",
+"Requirements": "**Iron**: 4",
+"Rarity": "Common",
+"Equippable Classes": "Barbarian, Castellan"},
+
+"Iron Helmet": {"Description": "An iron helmet is the perfect helmet for a fitting warrior.",
+"Defence Boost": "3%",
+"Type": "Helmet",
+"Requirements": "**Iron**: 4",
+"Rarity": "Common",
+"Equippable Classes": "All"}}
+
+Crafting_Dict = { "Wooden Staff": {"Wood" : 3}}
