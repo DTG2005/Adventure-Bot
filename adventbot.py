@@ -12,11 +12,13 @@ def read_token ():
 		lines = f.readlines()
 		return lines[0].strip()
 		
+# Read the token
 token = read_token()
 AdventBot = commands.Bot(command_prefix = '--')
 
 categlist = ["Cleric", "Knight", "Barbarian", "Castellan", "Hunter"]
 
+#So that we know when our sweet bot is ready
 @AdventBot.event
 async def on_ready():
 	print('Let\'s do this')
@@ -25,13 +27,19 @@ async def on_ready():
 async def intro(ctx):
 	await ctx.channel.send('Hello, thank you for adding me to your server. I am a bot framework specially made for playing games with people, especially RPG ones. \n You may start playing rn or do the ```--help``` to get the help prompt.')
 
+#Joining commands so it works well
 @AdventBot.command()
 async def join(ctx, category):
+	#Database init
 	c = conn.cursor()
 	newfile.create_table(conn, c)
+	
+	#Check if category is in there
 	if category in categlist:
 		categdict = {'Cleric': [5, 10, 25], 'Knight': [15, 20, 10], 'Barbarian': [15, 15, 15], 'Castellan': [25, 15, 5], 'Hunter': [10, 15, 20]}
 		categitem = {'Cleric': 'Broken_Staff', 'Knight': 'Stone Crudesword', 'Barbarian': 'Wooden Mace', 'Castellan': 'Stone Gauntlet', 'Hunter': 'Wooden Bow'}
+
+		#Database will return an error if there's an existing instance of the name joined. Thus, I'll exploit this to give back an explanatory response
 		try:
 			newfile.data_entry(c, ctx.author.name, category, 0, 0, 0, categdict[category], categitem[category], conn)
 			await ctx.send(f'You have joined the Adventure as {ctx.author.name}, a {category}.\nYou stand at level 0 and have 0 money. Let the adventure begin!!!')
@@ -41,6 +49,7 @@ async def join(ctx, category):
 	else:
 		await ctx.send(f'{category} is not a valid category. Try joining as {categlist[0]}, {categlist[1]}, {categlist[2]}, {categlist[3]}, or {categlist[4]}.')
 	
+#The entirety of this command is self-explanatory
 @AdventBot.command()
 async def classinfo(ctx, vclass):
 	if vclass in categlist:
@@ -50,10 +59,13 @@ async def classinfo(ctx, vclass):
 	else:
 		await ctx.send(f'{vclass} is not a suitable class. Try any one of {categlist[0]}, {categlist[1]}, {categlist[2]}, {categlist[3]}, or {categlist[4]}.')
 
+#The standard Campaign command
 @AdventBot.command()
 @commands.cooldown(1, 1800, commands.BucketType.user)
 async def campaign(ctx):
 	c = conn.cursor()
+
+	#The database will again return an error in case the user has not registered, since the database has no instance of the user name.
 	try:
 		c.execute('SELECT category, level, experience FROM UserCredentials WHERE name = (?)', (ctx.author.name,))
 		data = c.fetchall()
@@ -63,6 +75,7 @@ async def campaign(ctx):
 	except:
 		await ctx.send('You don\'t seem to have joined. You can do --join "category" now to do so.')
 		
+	#everything below this is database gibberish you might want to skip out.
 	exp = random.randint(class_descriptions.level_exp_list[str(level)][0], class_descriptions.level_exp_list[str(level)][1])
 	experience += exp
 	
@@ -81,6 +94,7 @@ async def campaign_error(ctx, error):
 	if isinstance(error, commands.CommandOnCooldown):
 		await ctx.send(f"Your Character is tired from going on a campaign. Try again after resting {int(error.retry_after/60)} minutes and {int(error.retry_after%60)} seconds.")
 
+#This too is pretty much self explanatory
 @AdventBot.command()
 @commands.cooldown(1, 1800, commands.BucketType.user)
 async def mine(ctx):
@@ -101,7 +115,7 @@ async def mine(ctx):
 	c = conn.cursor()
 	try:
 		categ = newfile.getCateg(ctx.author.name, c, conn)
-	except sqlite3.error as error:
+	except sqlite3.Error as error:
 		ctx.send("You haven't joined yet. Do the join command: --join to join now!!!")
 	categChar = class_descriptions.Categ_determiner[categ]
 	if Item == "Wood":
