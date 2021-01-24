@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import newfile
+
 import class_descriptions
 import random
 import sqlite3
@@ -43,7 +44,7 @@ async def join(ctx, category):
 		try:
 			newfile.data_entry(c, ctx.author.name, category, 0, 0, 0, categdict[category], categitem[category], conn)
 			await ctx.send(f'You have joined the Adventure as {ctx.author.name}, a {category}.\nYou stand at level 0 and have 0 money. Let the adventure begin!!!')
-		except sqlite3.Error as error:
+		except sqlite3.Error:
 			await ctx.send('You have already joined! You need not join again.')
 			
 	else:
@@ -115,7 +116,7 @@ async def mine(ctx):
 	c = conn.cursor()
 	try:
 		categ = newfile.getCateg(ctx.author.name, c, conn)
-	except sqlite3.Error as error:
+	except sqlite3.Error:
 		ctx.send("You haven't joined yet. Do the join command: --join to join now!!!")
 	categChar = class_descriptions.Categ_determiner[categ]
 	if Item == "Wood":
