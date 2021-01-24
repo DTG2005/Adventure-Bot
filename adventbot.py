@@ -197,15 +197,23 @@ async def inventory(ctx, member: discord.Member = None):
 		await ctx.send("You don't have any collectible in your inventory. You can do --mine per 30 minutes to collect some.")
 	
 @AdventBot.command()
-async def craftable(ctx, *, ItemName):
-	try:
-		embedVar = discord.Embed(title = ItemName, description = class_descriptions.Craftables[ItemName]["Description"], colour = discord.Color(value=int(class_descriptions.rarityColour[class_descriptions.Craftables[ItemName]["Rarity"]], 16)))
-		for key in class_descriptions.Craftables[ItemName]:
-			if key != "Description":
-				embedVar.add_field(name = key, value = class_descriptions.Craftables[ItemName][key])
-		await ctx.send(embed = embedVar)
-	except:
-		await ctx.send("Item not found!!")
+async def craftable(ctx, *, ItemName = None):
+	if ItemName is None:
+		desc = ""
+		for craft in class_descriptions.Craftables:
+			desc += f"**{craft}**\n\n"
+		embedVar2 = discord.Embed(title = "Craftable Items", description = desc)
+		await ctx.send(embed= embedVar2)
+
+	else:
+		try:
+			embedVar = discord.Embed(title = ItemName, description = class_descriptions.Craftables[ItemName]["Description"], colour = discord.Color(value=int(class_descriptions.rarityColour[class_descriptions.Craftables[ItemName]["Rarity"]], 16)))
+			for key in class_descriptions.Craftables[ItemName]:
+				if key != "Description":
+					embedVar.add_field(name = key, value = class_descriptions.Craftables[ItemName][key])
+			await ctx.send(embed = embedVar)
+		except:
+			await ctx.send("Item not found!!")
 
 @AdventBot.command()
 async def collectible(ctx, itemName):
