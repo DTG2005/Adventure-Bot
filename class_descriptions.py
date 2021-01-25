@@ -316,3 +316,10 @@ Crafting_Dict = { "Wooden Staff": {"Wood" : 3}, "Wooden Sword": {"Wood": 5}, "Wo
 "Sun's wrath":{"Gold": 3}, "Golden Sword":{"Gold":3}, "Sunstar": {"Gold": 6}, "Golden Headpiece": {"Gold": 4}, "Mask of Light": {"Gold":3}, 
 "Moon's Wrath": {"Electrum":3}, "Electrum Sword":{"Electrum":3}, "Moonstar": {"Electrum":6}, "Electrum Headpiece": {"Electrum":4}, "Mask of Darkness": {"Electrum":3},
 "Staff of Balance": {"Oharium":3 }, "Excalibur": {"Oharium": 3}, "Cursed Star": {"Oharium": 6}, "Helmet of Valour": {"Oharium":4}, "Mask of Hope": {"Oharium":3}}
+
+Move_Dict = {
+	"Wooden Staff": {
+		"Whirlwind": "Casts a weak wind slash, dealing 2 damage.",
+		"Earth's Vengeance": "Casts a weak shockwave on the ground. Deals 3 damage and surpasses blocks, but requires a cooldown of 1 move."
+	},
+}

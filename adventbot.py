@@ -228,4 +228,25 @@ async def collectible(ctx, itemName):
 			embedVar.add_field(name=stuff, value = class_descriptions.collectibleDesc[stuff][1], inline = False)
 		await ctx.send(embed = embedVar)
 	
+@AdventBot.command()
+async def moves(ctx, *, ItemName = None):
+	if ItemName is None:
+		c = conn.cursor()
+		try:
+			#Get data from the db
+			data1 = newfile.getInventory(c, conn, ctx.author.name)
+			length = len(data1)
+
+
+		except sqlite3.Error as error:
+			await ctx.send("You have either not joined, or do not have any craftable in Inventory.")
+			print(error)
+	
+	else:
+		embed1 = discord.Embed(title = ItemName, description = "The moves for the given equipment are listed below", color = discord.Color(value= int("ff8700", 16)))
+		for key in class_descriptions.Move_Dict[ItemName]:
+			embed1.add_field(name= key, value= class_descriptions.Move_Dict[ItemName][key])
+
+		await ctx.send(embed = embed1)
+
 AdventBot.run(token)

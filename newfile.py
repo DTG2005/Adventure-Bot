@@ -79,6 +79,11 @@ def getCraftableData(c, conn, name, craftable):
 	c.execute("SELECT number_held FROM Inventory WHERE name = (?) AND item_name = (?)", (name, craftable))
 	data = c.fetchall()
 	return data
+
+def getInventory(c, conn, name):
+	c.execute("SELECT item_name FROM Inventory WHERE name = (?)", (name,))
+	data = c.fetchall()
+	return data
 	
 def updateCraftable(c, conn, num, name, craftable):
 	c.execute("UPDATE Inventory SET number_held = (?) WHERE name = (?) AND item_name = (?)", (num, name, craftable))
