@@ -140,7 +140,7 @@ Craftables = {"Wooden Staff": {"Description": "This is a random wooden staff. No
 
 "Iron Helmet": {"Description": "An iron helmet is the perfect helmet for a fitting warrior.",
 "Defence Boost": "3%",
-"Type": "Helmet",
+"Type": "Headgear",
 "Requirements": "**Iron**: 4",
 "Rarity": "Common",
 "Equippable Classes": "All"},
@@ -184,7 +184,7 @@ Craftables = {"Wooden Staff": {"Description": "This is a random wooden staff. No
 "Equippable Classes" : "Barbarian, Castellan"},
 
 "Silver Helmet": {"Description": "Of course it is stronger than iron! Oh wait, you didn't know? It's a bit of expert goblin craftsmanship",
-"Type" : "Helmet",
+"Type" : "Headgear",
 "Defence Boost": "4%",
 "Requirements": "**Silver** : 4",
 "Rarity": "Rare",
@@ -221,7 +221,7 @@ Craftables = {"Wooden Staff": {"Description": "This is a random wooden staff. No
 "Equippable Classes": "Barbarian, Castellan"},
 
 "Golden Headpiece": {"Description": "When the going gets yellow, make it shine with your own helmet made of gold!",
-"Type": "Helmet",
+"Type": "Headgear",
 "Defence Boost": "12%",
 "Requirements": "**Gold** : 4",
 "Rarity": "Epic",
@@ -258,7 +258,7 @@ Craftables = {"Wooden Staff": {"Description": "This is a random wooden staff. No
 "Equippable Classes": "Barbarian, Castellan"},
 
 "Electrum Headpiece": {"Description": "The strong and damage absorbing Electrum helmet every brave warrior should use to keep their head in one piece if the opponent has a lucky chance to aim for what Thor couldn't.",
-"Type": "Helmet",
+"Type": "Headgear",
 "Defence Boost": "14%",
 "Requirements": "**Electrum** : 4",
 "Rarity": "Epic",
@@ -295,7 +295,7 @@ Craftables = {"Wooden Staff": {"Description": "This is a random wooden staff. No
 "Equippable Classes": "Barbarian, Castellan"},
 
 "Helmet of Valour": {"Description": "The strongest helmet class used by the Warriors of Valour, the glimmer of light reflected off this helmet sends sparks of fear flying in the heart of your foes. It creates a healing aura while absorving your damage.",
-"Type": "Helmet",
+"Type": "Headgear",
 "Defence Boost": "25%",
 "Requirements": "**Oharium** : 4",
 "Rarity": "Legendary",
@@ -310,4 +310,9 @@ Craftables = {"Wooden Staff": {"Description": "This is a random wooden staff. No
 "Equippable Classes": "Cleric, Hunter"}}
 
 
-Crafting_Dict = { "Wooden Staff": {"Wood" : 3}}
+Crafting_Dict = { "Wooden Staff": {"Wood" : 3}, "Wooden Sword": {"Wood": 5}, "Wooden Mace": {"Wood": 6}, "Wooden Helmet": {"Wood": 3}, "Wooden Mask": {"Wood": 2}, 
+"Iron Sword": {"Iron":3}, "Iron Club": {"Iron":4}, "Iron Helmet": {"Iron":4}, "Ferrum Conduit": {"Iron": 7}, "Sturdy Face Cover": {"Iron":3},
+"Silver Staff": {"Silver": 3}, "Silver Sword": {"Silver": 3}, "Silver Star": {"Silver": 6}, "Silver Helmet": {"Silver": 4}, "Silver Mask": {"Silver":3},
+"Sun's wrath":{"Gold": 3}, "Golden Sword":{"Gold":3}, "Sunstar": {"Gold": 6}, "Golden Headpiece": {"Gold": 4}, "Mask of Light": {"Gold":3}, 
+"Moon's Wrath": {"Electrum":3}, "Electrum Sword":{"Electrum":3}, "Moonstar": {"Electrum":6}, "Electrum Headpiece": {"Electrum":4}, "Mask of Darkness": {"Electrum":3},
+"Staff of Balance": {"Oharium":3 }, "Excalibur": {"Oharium": 3}, "Cursed Star": {"Oharium": 6}, "Helmet of Valour": {"Oharium":4}, "Mask of Hope": {"Oharium":3}}
