@@ -236,8 +236,8 @@ async def moves(ctx, *, ItemName = None):
 			#Get data from the db
 			data1 = newfile.getInventory(c, conn, ctx.author.name)
 			
-			embed1 = discord.Embed(title = ctx.author.name , description = "The moves available for you are listed below", color = discord.Color(value= int("ff8700", 16)))
-
+			embed1 = discord.Embed(title = "Moves" , description = "The moves available for you are listed below", color = discord.Color(value= int("ff8700", 16)))
+			embed1.set_author(name= ctx.author.name, icon_url=ctx.message.author.avatar_url)
 			for key in data1:
 				movedict = class_descriptions.Move_Dict[key[0]]
 				for key2 in movedict:
