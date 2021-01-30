@@ -322,4 +322,160 @@ Move_Dict = {
 		"Whirlwind": "Casts a weak wind slash, dealing 2 damage.",
 		"Earth's Vengeance": "Casts a weak shockwave on the ground. Deals 3 damage and surpasses blocks, but requires a cooldown of 1 move."
 	},
+	"Wooden Sword": {
+		"Slashdown": "Quickly puts a quick slash on the enemy. Deals 2 damage.",
+		"Stabdown": "Requires a charge of one move. Deals 2 damage and pins the opponent, taking a turn away from him."
+	},
+	"Wooden Mace": {
+		"Headbutt": "Quick attack using the mace, deals 1 damage, giving you enough time to brace for a block or a charge for another attack.",
+		"Smashdown": "Requires a charge of two turns. Deals 4 damage and stuns your enemy. Requires a cooldown of one turn.",
+	},
+	"Wooden Helmet": {
+		"Braceup": "Enables yourself to brace for any incoming attack. +30% chance of a successful block for the next turn.",
+		"Dodge": "You move fast, trying to protect yourself from enemy attack. +30% chance of opponent's attack missing for the nextt turn."
+	},
+	"Wooden Mask": {
+		"Longshot": "Increases your range. -10% chance of your attack missing for the next turn.",
+		"Protection": "Forms a mana armour. +10% chance of blocking for the next turn."
+	},
+	"Iron Sword": {
+		"Woundcheck": "Normal attack. Deals 3 damage to the opponent.",
+		"Deep cut": "Charge of 1 turn. Deals 3 damage to the opponent and casts bleeding effect on them for 4 turns."
+	},
+	"Iron Club": {
+		"Iron fist": "Requires a charge of 3 turns. Deals 7 damage and stuns the opponent.",
+		"Mashdown": "Deals 2 damage and casts stun on the opponent."
+	},
+	"Iron Helmet": {
+		"Unbreakable": "Enables yourself to brace for any incoming attack. +35% chance of a successful block for the next turn.",
+		"Heads up": "Puts up a powerful shield. +40% chance of a successful block for the next run. Cooldown of a turn."
+	},
+	"Ferrum Conduit": {
+		"Medic's praise": "Heals a total of 5 damage and cancels burns and bleeding. Also treats weakness, fatigue and trauma.",
+		"Lightning": "A bolt of lightning pummels on your opponent. Deals 4 damage and stuns the opponent."
+	},
+	"Sturdy Face Cover": {
+		"Strengthening": "Casts a force field that strengthens your shield. +30% chance of a successful block for 2 turns.",
+		"Flasher": "Enables you to use two moves during the next turn."
+	},
+	"Silver Staff": {
+		"Reflect [p]": "If the next attack is blocked, the damage and effects are taken by the opponent.",
+		"Levitator": "The opponent is picked up and slammed to the ground. Deals 6 damage to the opponent.",
+		"Sunburn": "The staff reflects the Sun's light, causing a minor burn. Deals 5 damage and surpasses block."
+	},
+	"Silver Sword": {
+		"Slice": "Puts a slice on opponent, dealing 3 damage and inflicting bleed for 4 turns.",
+		"Pain Slash": "Deals 5 damage on the opponent and inflicts trauma.",
+		"Finish": "Requires a warm up of 3 moves. Deals 10 damage and stuns the opponent. If the opponent is below 10% health, you steal their health."
+	},
+	"Silver Star": {
+		"Smashup": "Deals 4 damage to the opponent and inflicts weakness on them.",
+		"Backstance": "You use the mace to brace for incoming attack. +10% chance of a block for the next turn, and 20% chance of stun on a successful block.",
+		"Punchback": "Charge of 1 turn, then can be used for subsequent turns if not stunned. Deals 6 damage each time."
+	},
+	"Silver Helmet": {
+		"Blinding Reflection": "20% chance of the opponent to be blinded for 2 turns on a missed attack.",
+		"Braceup": "Charge of 1 turn. Increases chance of blocked attack by 35% for the next 2 turns.",
+		"Narrow Escape [p]": "If your health is below 30%, opponent has a +20% chance to miss his attacks."
+	},
+	"Silver Mask": {
+		"Deviation [p]": "If the next attack is blocked, the same attack will be repeated next turn without the usage of a move.",
+		"Repair": "Heals back 8 damage and clears burn and bleeding. Also treats trauma, weakness and fatigue.",
+		"Rage of Mage": "Your next attack will blind the opponent for 1 turn and give you 2 attacks for 1 turn. Cooldown of 2 turns."
+	},
+	"Sun's Wrath": {
+		"Firepower": "Casts 3 spells, each dealing 2 damage. For each one blocked, you gain +10% chance of a block for the next turn.",
+		"Heatstroke": "Deals 6 damage and lowers the opponent's armour by 10% for 2 turns.",
+		"Warmup [p]": "If the opponent is using a healing or defensive move, you will receive a 10% increase on all your attack damage.",
+		"Ashes Remain [p]": "A successful burn effect will last 1 turn longer and deal 1 extra damage."
+	},
+	"Golden Sword": {
+		"Slashout": "Deals 7 damage and inflicts weakness on the opponent for 1 turn.",
+		"Retribution of Sun Warriors": "You deal 6 damage and inflict bleed and burn at the same time. Bleed lasts for 2 turns while burn lasts for 3 turns. Warm up of 3 turns.",
+		"Uppercut": "Deals 5 damage and inflicts bleed on the opponent for 2 turns. If the health of the opponent is more than 80%, bleed will last 2 more turns.",
+		"Sharpness [p]": "Your attacks have +10% chance of dealing critical damage."
+	},
+	"Sunstar": {
+		"Solar Flare": "Deals 9 damage and inflicts burn on the opponent for 1 turn.",
+		"Hyperdrive [p]": "Your attacks have a +50% chance of critical hit, but you have -25% chance of a block.",
+		"Starlight": "Your opponent's next attack will have a 90% chance of a block, but in case of a successful opponent's attack, you will receive 200% damage and the debuffs will last for 2 turns. Cooldown of 1 turn.",
+		"Fireshock": "You strike the ground with your weapon, which causes a shockwave to pummel through the ground, surpassing blocks. Deals 7 damage and triggers burn for 2 turns."
+	},
+	"Golden Headpiece": {
+		"Glare": "You set your opponent ablaze, casting an inferno on them that lasts 3 turns.",
+		"Burnscathe [p]": "If your opponent has burnt you, you will gain +5% chance of a successful block when the effect wears out.",
+		"Solar Spirit": "Casts a shield which gives 20 damage protection to you. If your health is below 10%, the shield will be set ablaze causing burns on a successful hit.",
+		"Bloodlust": "Your next attack gets a +45% chance of a critical attack, but you will take 20% of the damage inflicted."
+	},
+	"Mask of Light": {
+		"Flashlight": "Blinds your opponent for the next 2 turns.",
+		"Solar Phantom": "Summons a Solar Phantom who deals 3 damage per turn to the opponent and has 10 health.",
+		"Lightspeed [p]": "Your attacks get a lot quicker, making it difficult to block them. -10% chance of blocking for the opponent.",
+		"Lightshed [p]": "If your health is more than 80%, your attacks deal 3% bonus damage and have a 30% chance to blind the enemy for 1 turn."
+	},
+	"Moon's Wrath": {
+		"Wavepower": "You cast a tidal wave on the opponent, dealing 8 damage and resetting all positive effects.",
+		"Water whip": "Deals 7 damage and makes the opponent slippery, causing their attacks to have -10% critical chance.",
+		"Tsunami": "Charge of 3 turns. Deals 10 damage and casts trauma on the opponent.",
+		"Firefighter [p]": "If your enemy uses gold equipment, you gain +10% damage and +15% critical hit chance."
+	},
+	"Electrum Sword": {
+		"Piercer": "Deals 7 damage and inflicts bleeding on the opponent for 2 turns.",
+		"Retribution of Moon Warriors": "You deal 6 damage and inflict freeze and weakness at the same time. Freeze lasts for 3 turns while weakness lasts for 2 turns. Warm up of 3 turns.",
+		"Cutdown": "Deals 5 damage and inflicts weakness on the opponent for 2 turns. If the opponent has more than 80% health, inflicts shadowflame on them for 2 turns.",
+		"Venom [p]": "Every successful attack inflicts poison on the opponent."
+	},
+	"Moonstar": {
+		"Lunar Flare": "Deals 9 damage and inflicts shadowflame on the opponent for the next 1 turn.",
+		"Frenzy [p]": "You have a 40% damage boost, but all your attacks have a +10% chance of missing.",
+		"Darkstroke": "Your opponent's next attack has a +40% chance of missing, but you have a -20% chance of blocking.",
+		"Nightsmash": "Deals 6 damage and inficts shadowflame and trauma on your opponent for next 3 turns."
+	},
+	"Electrum Headpiece": {
+		"Darkflame": "You cast a spell on your opponent that inflicts Shadowflame on them for 3 turns.",
+		"Fireproof [p]": "Burn lasts 1 turn less on you.",
+		"Shapeshift": "During opponent's next attack, you will havee +20% chance of a dodge. In case of a successful attack by the opponent, casts weakness on them for 2 turns.",
+		"Minion": "Summons a minion that deals 4 damage per turn and has 15 health. Cooldown of 1 turn."
+	},
+	"Mask of Darkness": {
+		"Shadowblindness": "Temporarily disarms your opponent for the next 3 turns.",
+		"Shadow beast": "Summons a shadowbeast that deals 6 damage per 2 turns and has 15 health.",
+		"Lurker [p]": "You have a 30% chance of dealing 2 damage every time your opponent misses a hit.",
+		"Darkness [p]": "Your opponent has +25% chance of missing their hits."
+	},
+	"Staff of Balance": {
+		"Lightning": "Traps your opponent in a lighning storm that deals 3 damage every turn and stuns the enemy. Lasts for 2 turns and increases by 1 turn if opponent misses an attack.",
+		"Cloudburst": "Deals 7 damage to the opponent and inflicts freeze on them.",
+		"Meteor": "Warm up of 3 turns. Casts a meteor from the sky to fall on your opponent, dealing 10 damage and inflicting burn for 3 turns.",
+		"Recharge": "Heals 10 health and clears all negative debuffs, but also clears negative debuffs on your opponent.",
+		"Balanced State [p]": "When your health falls below 30%, you enter balanced state where all your attacks deal +10% damage and trigger trauma."
+	},
+	"Excalibur": {
+		"Super Slash" : "Deals 6 damage and inflicts bleed for 4 turns.",
+		"Stabdown": "Charge up of 1 turn. Deals 10 damage and inflicts bleeding and poisoning for 2 turns.",
+		"Hero of the West [p]": "For every attack blocked, you get a shield with 5 extra health.",
+		"Ultimate": "Charge up of 3 turns. Deals 12 damage and stuns the opponent.",
+		"Judgement": "Deals 10 damage and inflicts burn for next 3 turns. Cooldown of 2 turns."
+	},
+	"Cursed Star": {
+		"Wrath of the Hecatonchires": "Slams the club down on ground causing a shockwave that deals 7 damage and triggers poison on the opponent for 4 turns.",
+		"Curse of Ancestors": "Casts weakness, trauma, bleeding, burn and poison on the opponent for 3 turns.",
+		"Super Smash": "Deals 7 damage an inflicts bleed for 4 turns.",
+		"Shockdown": "Casts a powerful shockwave that deals 9 damage and triggers trauma for 3 turns.",
+		"Cursed [p]": "If your opponent's health is greater than 70%, all the debuffs last 1 turn longer."
+	},
+	"Helmet of Valour": {
+		"Courageous [p]": "At the start of the battle, your attacks surpass block and deal 10% extra damage for 2 turns.",
+		"Valorous": "Increases the damage of your next attack by 40%",
+		"Regeneration": "Heals 10 damage and cancels all negative debuffs.",
+		"Guarding": "Increases your chance of blocking by 20% for next 3 turns.",
+		"Warrior of Valour [st]": "You gain bonus shield for every attack equal to half the damage you inflict."
+	},
+	"Mask of Hope": {
+		"Last Stand [p]": "When taking fatal damage, you resurrect with 10 health and invulnerability for 1 turn.",
+		"Illusion": "You have a 20% chance to dodge your opponent's attack. If you dodge successfully, your next attack will surpass block.",
+		"Magestorm": "Your next 3 attacks will surpass block but will deal 50% less damage.",
+		"Healer's fortune": "Heals 15 damage and cures any 2 negative debuffs on random.",
+		"Warrior of Hope [st]": "You gain bonus damage in ratio to every successful attack you land on your opponent."
+	}
 }

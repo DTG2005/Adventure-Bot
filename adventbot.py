@@ -235,8 +235,6 @@ async def moves(ctx, *, ItemName = None):
 		try:
 			#Get data from the db
 			data1 = newfile.getInventory(c, conn, ctx.author.name)
-			length = len(data1)
-
 
 		except sqlite3.Error as error:
 			await ctx.send("You have either not joined, or do not have any craftable in Inventory.")
