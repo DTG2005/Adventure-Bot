@@ -235,6 +235,15 @@ async def moves(ctx, *, ItemName = None):
 		try:
 			#Get data from the db
 			data1 = newfile.getInventory(c, conn, ctx.author.name)
+			
+			embed1 = discord.Embed(title = ctx.author.name , description = "The moves available for you are listed below", color = discord.Color(value= int("ff8700", 16)))
+
+			for key in data1:
+				movedict = class_descriptions.Move_Dict[key[0]]
+				for key2 in movedict:
+					embed1.add_field(name= key2, value=class_descriptions.Move_Dict[key[0]][key2])
+
+			await ctx.send(embed= embed1)
 
 		except sqlite3.Error as error:
 			await ctx.send("You have either not joined, or do not have any craftable in Inventory.")
