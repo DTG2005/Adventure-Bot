@@ -135,6 +135,7 @@ async def mine_error(ctx, error):
 	if isinstance(error, commands.CommandOnCooldown):
 		await ctx.send(f"Your Character can only mine once in 30 minutes. You can try again in {int(error.retry_after/60)} minutes and {int(error.retry_after%60)} seconds.")
 
+#database gibberish you'd want to leave out again
 @AdventBot.command()
 async def craft(ctx, *, craftable):
 	c = conn.cursor()
@@ -177,6 +178,7 @@ async def stats(ctx):
 		magic = int(data[0][6])
 		mainItem = data[0][7]
 		embedVar = discord.Embed(title = ctx.author.name, description = f'You are a {category} and currently stand at Level {level} with {experience} experience. You have {money} money.\n\nDefence:{defence}\nAttack:{attack}\nMagic:{magic}\nYour main weapon right now is {mainItem}.')
+		embedVar.set_author(name= ctx.author.name, icon_url=ctx.message.author.avatar_url)
 		await ctx.send(embed = embedVar)
 	except:
 		await ctx.send("You haven't joined yet. Try joining now!")
@@ -216,18 +218,50 @@ async def craftable(ctx, *, ItemName = None):
 			await ctx.send("Item not found!!")
 
 @AdventBot.command()
-async def collectible(ctx, itemName):
+async def collectible(ctx, itemName = None):
 	collectibleList = ["Wood", "Iron", "Amethyst", "Silver", 'Electrum',"Gold", "Petronacium", "Zyber", "Oharium"]
-	if itemName in collectibleList:
-		embedVar = discord.Embed(title = itemName, description = class_descriptions.collectibleDesc[itemName][0], colour = discord.Color(value=int(class_descriptions.rarityColour[class_descriptions.collectibleDesc[itemName][1]], 16)))
-		embedVar.add_field(name = "Rarity",  value = class_descriptions.collectibleDesc[itemName][1])
-		await ctx.send(embed = embedVar)
+	if itemName is not None:
+		if itemName in collectibleList:
+			embedVar = discord.Embed(title = itemName, description = class_descriptions.collectibleDesc[itemName][0], colour = discord.Color(value=int(class_descriptions.rarityColour[class_descriptions.collectibleDesc[itemName][1]], 16)))
+			embedVar.add_field(name = "Rarity",  value = class_descriptions.collectibleDesc[itemName][1])
+			await ctx.send(embed = embedVar)
+		else:
+			embedVar =discord.Embed(title = "Collectible not found!", description = "The collectible you were looking for was not found. Try one of the following:-", color = discord.Color(value = int("ff0000", 16)))
+			for stuff in collectibleList:
+				embedVar.add_field(name=stuff, value = class_descriptions.collectibleDesc[stuff][1], inline = False)
+			await ctx.send(embed = embedVar)
 	else:
-		embedVar =discord.Embed(title = "Collectible not found!", description = "The collectible you were looking for was not found. Try one of the following:-", color = discord.Color(value = int("ff0000", 16)))
-		for stuff in collectibleList:
-			embedVar.add_field(name=stuff, value = class_descriptions.collectibleDesc[stuff][1], inline = False)
-		await ctx.send(embed = embedVar)
+		desc = ""
+		for collect in collectibleList:
+			desc += f'**{collect}**\n\n'
+		embed2 = discord.Embed(title = "Collectible Items", description = desc, colour = discord.Color(value=int('00ff00', 16)))
+		await ctx.send(embed= embed2)
 	
+@AdventBot.command()
+async def equip(ctx, *, itemName):
+	c = conn.cursor()
+	#Get data from the database
+	try:
+		data1 = newfile.getInventory(c, conn, ctx.author.name)
+	except:
+		await ctx.send("Selected item cannot be found. Perhaps try seeing if you can craft it.")
+	#Iteration happens here
+	for key in data1:
+		if key[0] == itemName:
+			newItemNum = key[1] - 1
+			#Below this I'll update the db since equipment decreases 1 amount from the inventory
+			if newItemNum != 0:
+				newfile.updateCraftable(c, conn, newItemNum, ctx.author.name, itemName)
+				#Now, we can go ahead and check what type of equipment it is so we can equip it in the specified slot
+				if class_descriptions.Craftables[itemName]["Type"] in class_descriptions.Main_equipment_dict:
+					newfile.EquipMainItem(ctx.author.name, c, conn, itemName)
+					await ctx.send("Main Item has been equipped!!")
+				else:
+					newfile.EquipOtherItems(c, conn, ctx.author.name, itemName, class_descriptions.Equipment_db_dict[class_descriptions.Craftables[itemName]["Type"]])
+					await ctx.send(f"{itemName} has been equipped!!")
+			else:
+				await ctx.send("Selected Item cannot be found!!")
+
 @AdventBot.command()
 async def moves(ctx, *, ItemName = None):
 	if ItemName is None:
@@ -255,5 +289,37 @@ async def moves(ctx, *, ItemName = None):
 			embed1.add_field(name= key, value= class_descriptions.Move_Dict[ItemName][key])
 
 		await ctx.send(embed = embed1)
+
+@AdventBot.command()
+async def addmove(ctx, move):
+	try:
+		c = conn.cursor()
+		deterchar = 'n'
+		#Get data from the db
+		data1 = newfile.getInventory(c, conn, ctx.author.name)
+			
+		for equipment in data1:
+			movedict = class_descriptions.Move_Dict[equipment[0]]
+			for key2 in movedict:
+				if move == key2:
+					#Ima do stuff here
+					deterchar = 'c'
+		
+		if deterchar == 'c':
+			await ctx.send("Move is available to be added.")
+		else:
+			await ctx.send("This move is currently unavailable.")
+
+	except sqlite3.Error as error:
+		await ctx.send("You have either not joined, or do not have any available Moves.")
+		print(error)
+
+@AdventBot.command()
+async def moveset(ctx):
+	PlayerMoveset = {"Active": None, "Passive": None}
+	c = conn.cursor()
+	c.execute("SELECT category FROM Usercredentials WHERE name = (?)", (ctx.author.name,))
+	data = c.fetchall()
+
 
 AdventBot.run(token)

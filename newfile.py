@@ -5,19 +5,23 @@ conn = sqlite3.connect('database.db')
 c = conn.cursor()
 	
 def create_table(conn, c):
-	c.execute('CREATE TABLE IF NOT EXISTS Equipped(name TEXT PRIMARY KEY, Headgear TEXT, Armour TEXT, Lower TEXT, Boots TEXT)')
+	c.execute('CREATE TABLE IF NOT EXISTS Equipped(name TEXT PRIMARY KEY, Headgear TEXT, Armour TEXT, Lower TEXT, Boots TEXT, UNIQUE (name))')
 	
 	c.execute('CREATE TABLE IF NOT EXISTS Inventory(name TEXT, item_name TEXT, number_held INTEGER, UNIQUE (name, item_name))')
 
 	c.execute('CREATE TABLE IF NOT EXISTS Collectibles (name TEXT, collectible TEXT, number_held INTEGER)')
 				
 	c.execute('CREATE TABLE IF NOT EXISTS UserCredentials(name TEXT, category TEXT, level TEXT, money INTEGER, experience INTEGER, defence INTEGER, attack INTEGER, magic INTEGER, mainItem TEXT, FOREIGN KEY (name) REFERENCES Equipped(name))')
+	
+	c.execute('CREATE TABLE IF NOT EXISTS Moveset(name TEXT, move TEXT, type TEXT , UNIQUE (name, move))')
 	conn.commit()
 	
 def data_entry(c, name, category, level, money, experience, statlist, mainItem, conn):
 	c.execute("INSERT INTO Equipped (name, Headgear, Lower, Armour, Boots) VALUES (?,?,?,?,?)", (name, "none", "none", "none", "none"))
 		
 	c.execute ("INSERT INTO UserCredentials (name, category, level, money, experience, defence, attack, magic, mainItem) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (name, category, level, money, experience, statlist[0], statlist [1], statlist [2], mainItem))
+	
+	c.execute("INSERT INTO Equipped(name, Headgear, Armour, Lower, Boots) VALUES (?, ?, ?, ?, ?)", (name, None, None, None, None))
 	conn.commit()
 
 def getall(name, c, category, level, money, experience, defence, attack, magic, mainItem):
@@ -32,11 +36,19 @@ def getall(name, c, category, level, money, experience, defence, attack, magic, 
 	magic = data[0][5]
 	mainItem = data[0][6]
 
+def EquipMainItem(name, c, conn, Item):
+	c.execute("UPDATE UserCredentials SET mainItem = (?) WHERE name = (?)", (Item, name))
+	conn.commit()
+
 def get_camp_info(name, c, level, categ):
 	c.execute('SELECT category, level  FROM UserCredentials WHERE name = (?)', (name,))
 	data = c.fetchall()
 	categ = data[0][0]
 	level = data[0][1]
+
+def EquipOtherItems(c, conn, name, item, type1):
+	c.execute(f"UPDATE Equipped SET {type1} = (?) WHERE name = (?)", (item, name))
+	conn.commit()
 
 def campaign_update(name, c, exp, conn, level):
 	c.execute('UPDATE UserCredentials SET experience = (?), level = (?) WHERE name = (?)', (exp, level, name))
@@ -71,6 +83,10 @@ def collectibleInventory(c, conn, name):
 	data = c.fetchall()
 	return data
 	
+def craftableUpdate(c, conn, num, name, craftable):
+	c.execute("UPDATE Inventory SET number_held = (?) WHERE name = (?) AND item_name = (?)", (num, name, craftable))
+	conn.commit()
+
 def craftableEntry(c, conn, name, craftable):
 	c.execute("INSERT INTO Inventory(name, item_name, number_held) VALUES (?,?,1)", (name, craftable))
 	conn.commit()
@@ -81,7 +97,7 @@ def getCraftableData(c, conn, name, craftable):
 	return data
 
 def getInventory(c, conn, name):
-	c.execute("SELECT item_name FROM Inventory WHERE name = (?)", (name,))
+	c.execute("SELECT item_name, number_held FROM Inventory WHERE name = (?)", (name,))
 	data = c.fetchall()
 	return data
 	

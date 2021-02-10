@@ -479,3 +479,19 @@ Move_Dict = {
 		"Warrior of Hope [st]": "You gain bonus damage in ratio to every successful attack you land on your opponent."
 	}
 }
+
+class move:
+	def __init__(self, damage, shield, buff, debuff, effectTurn, moveType):
+		self.damage = damage
+		self.shield = shield
+		self.buff = buff
+		self.debuff = debuff
+		self.effectTurn = effectTurn
+		self.moveType = moveType
+
+Main_equipment_dict = {"Sword", "Mace", "Staff", "Artifact"}
+
+Equipment_db_dict = {
+	"Mask": "Headgear",
+	"Headgear": "Headgear"
+}
