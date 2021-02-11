@@ -5,24 +5,32 @@ conn = sqlite3.connect('database.db')
 c = conn.cursor()
 	
 def create_table(conn, c):
-	c.execute('CREATE TABLE IF NOT EXISTS Equipped(name TEXT PRIMARY KEY, Headgear TEXT, Armour TEXT, Lower TEXT, Boots TEXT, UNIQUE (name))')
+	c.execute('CREATE TABLE IF NOT EXISTS Equipped(name TEXT , Headgear TEXT, Armour TEXT, Lower TEXT, Boots TEXT, UNIQUE (name))')
 	
 	c.execute('CREATE TABLE IF NOT EXISTS Inventory(name TEXT, item_name TEXT, number_held INTEGER, UNIQUE (name, item_name))')
 
 	c.execute('CREATE TABLE IF NOT EXISTS Collectibles (name TEXT, collectible TEXT, number_held INTEGER)')
 				
-	c.execute('CREATE TABLE IF NOT EXISTS UserCredentials(name TEXT, category TEXT, level TEXT, money INTEGER, experience INTEGER, defence INTEGER, attack INTEGER, magic INTEGER, mainItem TEXT, FOREIGN KEY (name) REFERENCES Equipped(name))')
+	c.execute('CREATE TABLE IF NOT EXISTS UserCredentials(name TEXT, category TEXT, level TEXT, money INTEGER, experience INTEGER, defence INTEGER, attack INTEGER, magic INTEGER, mainItem TEXT, Unique(name))')
 	
-	c.execute('CREATE TABLE IF NOT EXISTS Moveset(name TEXT, move TEXT, type TEXT , UNIQUE (name, move))')
+	c.execute('CREATE TABLE IF NOT EXISTS Moveset(name TEXT, move1 TEXT, move2 TEXT, move3 TEXT, move4 TEXT, move5 TEXT, passive1 TEXT, passive2 TEXT, standard TEXT, UNIQUE (name))')
 	conn.commit()
 	
 def data_entry(c, name, category, level, money, experience, statlist, mainItem, conn):
 	c.execute("INSERT INTO Equipped (name, Headgear, Lower, Armour, Boots) VALUES (?,?,?,?,?)", (name, "none", "none", "none", "none"))
 		
 	c.execute ("INSERT INTO UserCredentials (name, category, level, money, experience, defence, attack, magic, mainItem) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (name, category, level, money, experience, statlist[0], statlist [1], statlist [2], mainItem))
-	
-	c.execute("INSERT INTO Equipped(name, Headgear, Armour, Lower, Boots) VALUES (?, ?, ?, ?, ?)", (name, None, None, None, None))
 	conn.commit()
+
+def getMainEquipment(c, name):
+	c.execute("SELECT mainItem FROM UserCredentials WHERE name = (?)", (name,))
+	data = c.fetchall()
+	return data
+
+def getOtherEquipment(c, name):
+	c.execute("SELECT Headgear, Armour, Lower, Boots FROM Equipped WHERE name = (?)", (name,))
+	data = c.fetchall()
+	return data
 
 def getall(name, c, category, level, money, experience, defence, attack, magic, mainItem):
 	c.execute('SELECT category, level, money, experience, defence, attack, magic, mainItem FROM UserCredentials WHERE name = (?)', (name,))

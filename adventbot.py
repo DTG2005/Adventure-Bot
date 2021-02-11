@@ -44,8 +44,9 @@ async def join(ctx, category):
 		try:
 			newfile.data_entry(c, ctx.author.name, category, 0, 0, 0, categdict[category], categitem[category], conn)
 			await ctx.send(f'You have joined the Adventure as {ctx.author.name}, a {category}.\nYou stand at level 0 and have 0 money. Let the adventure begin!!!')
-		except sqlite3.Error:
+		except sqlite3.Error as error:
 			await ctx.send('You have already joined! You need not join again.')
+			await ctx.send(error)
 			
 	else:
 		await ctx.send(f'{category} is not a valid category. Try joining as {categlist[0]}, {categlist[1]}, {categlist[2]}, {categlist[3]}, or {categlist[4]}.')
@@ -97,7 +98,7 @@ async def campaign_error(ctx, error):
 
 #This too is pretty much self explanatory
 @AdventBot.command()
-@commands.cooldown(1, 1800, commands.BucketType.user)
+@commands.cooldown(1, 900, commands.BucketType.user)
 async def mine(ctx):
 	rarity = class_descriptions.itemRarity()
 	Item = random.choice(class_descriptions.Items[rarity])
@@ -133,7 +134,7 @@ async def mine(ctx):
 @mine.error
 async def mine_error(ctx, error):
 	if isinstance(error, commands.CommandOnCooldown):
-		await ctx.send(f"Your Character can only mine once in 30 minutes. You can try again in {int(error.retry_after/60)} minutes and {int(error.retry_after%60)} seconds.")
+		await ctx.send(f"Your Character can only mine once in 15 minutes. You can try again in {int(error.retry_after/60)} minutes and {int(error.retry_after%60)} seconds.")
 
 #database gibberish you'd want to leave out again
 @AdventBot.command()
@@ -296,15 +297,22 @@ async def addmove(ctx, move):
 		c = conn.cursor()
 		deterchar = 'n'
 		#Get data from the db
-		data1 = newfile.getUs
-			
-		for equipment in data1:
-			movedict = class_descriptions.Move_Dict[equipment[0]]
-			for key2 in movedict:
-				if move == key2:
-					#Ima do stuff here
-					deterchar = 'c'
+		data1 = newfile.getMainEquipment(c, ctx.author.name)
+		data2 = newfile.getOtherEquipment(c, ctx.author.name)
 		
+		for move1 in class_descriptions.Move_Dict[data1[0][0]]:
+			if  move1 == move:
+				deterchar = 'c'
+			else:
+				for equipment in data2:
+					for key in equipment:
+						if key != "none":
+							movedict = class_descriptions.Move_Dict[key]
+							for key2 in movedict:
+								if move == key2:
+									#Ima do stuff here
+									deterchar = 'c'
+				
 		if deterchar == 'c':
 			await ctx.send("Move is available to be added.")
 		else:
