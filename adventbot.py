@@ -250,7 +250,7 @@ async def equip(ctx, *, itemName):
 		if key[0] == itemName:
 			newItemNum = key[1] - 1
 			#Below this I'll update the db since equipment decreases 1 amount from the inventory
-			if newItemNum != 0:
+			if newItemNum <= 0:
 				newfile.updateCraftable(c, conn, newItemNum, ctx.author.name, itemName)
 				#Now, we can go ahead and check what type of equipment it is so we can equip it in the specified slot
 				if class_descriptions.Craftables[itemName]["Type"] in class_descriptions.Main_equipment_dict:
