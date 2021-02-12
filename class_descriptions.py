@@ -452,7 +452,7 @@ Move_Dict = {
 	},
 	"Excalibur": {
 		"Super Slash" : "Deals 6 damage and inflicts bleed for 4 turns.",
-		"Stabdown": "Charge up of 1 turn. Deals 10 damage and inflicts bleeding and poisoning for 2 turns.",
+		"Stabout": "Charge up of 1 turn. Deals 10 damage and inflicts bleeding and poisoning for 2 turns.",
 		"Hero of the West [p]": "For every attack blocked, you get a shield with 5 extra health.",
 		"Ultimate": "Charge up of 3 turns. Deals 12 damage and stuns the opponent.",
 		"Judgement": "Deals 10 damage and inflicts burn for next 3 turns. Cooldown of 2 turns."
@@ -494,4 +494,52 @@ Main_equipment_dict = {"Sword", "Mace", "Staff", "Artifact"}
 Equipment_db_dict = {
 	"Mask": "Headgear",
 	"Headgear": "Headgear"
+}
+
+DefaultMovesets = {
+	"Cleric": {
+		'Sick spell': "Deals 2 damage to the opponent.",
+		"Aerial Attack": "Deals 1 damage to the opponent while increasing the chance of an opponent attack miss for the next turn by 10%.",
+		"Fear": "Casts trauma on your opponent for 2 turns.",
+		"Sparkles": "Deals 1 damage and casts stun on your opponent.",
+		"Stonesmash": "Charge of 2 turns. Deals 4 damage to the opponent.",
+		"Mage [p]": "Magic attacks have 10% chance of surpassing opponent's block.",
+		"Hindsight [p]": "+5% chance of opponent's attack miss."
+	},
+	"Knight": {
+		"Punch": "Deals 1 damage to the opponent and stuns them.",
+		"Slash": "Deals 2 damage to the opponent.",
+		"Kick": "Charge of 1 turn. Deals 3 damage to the opponent.",
+		"Stab": "Deals 2 damage and triggers bleed for 1 turn. Cooldown of 1 turn.",
+		"Bandage": "Heals 2 damage and cancels active bleed and burn.",
+		"Holy Warrior [p]": "+3% damage boost to all your attacks.",
+		"Strong Will [p]": "+5% chance of a successful block." 
+	},
+	"Castellan": {
+		"Knock": "Deals 2 damage to the opponent.",
+		"War": "Deals 1 damage to the opponent each turn for 3 turns.",
+		"Slice": "Charge of 3 turns. Deals 4 damage and inflicts bleeding for 3 turns.",
+		"Pounce": "Deals 1 damage to the opponent and stuns them.",
+		"Armouring": "Stacks up a shield that can take 5 damage.",
+		"King's man [p]": "Your attacks have +2% damage boost.",
+		"Rigidity [p]": "-6% chance of a disarm."
+	},
+	"Barbarian": {
+		"Slap": "Deals 2 damage to the opponent",
+		"Hammer": "Charge of 1 turn. Deals 3 damage and stuns the enemy.",
+		"Scratch": "Deals 1 damage and inflicts bleeding for 3 turns.",
+		"Call of Nature": "Increases the damage of next attack by 6%.",
+		"Treatment": "Removes any 1 negative debuff at random.",
+		"Wildness [p]": "Your attacks have +8% damage, but you have +6% chance of missing your attacks.",
+		"True Beast [p]": "You have immunity against trauma."
+	},
+	"Hunter": {
+		"Bow Slash": "Deals 2 damage to the opponent.",
+		"Arrow":"Charge of 1 turn. Shoots an arrow on your opponent, dealing 1 damage and taking a turn away from him.",
+		"Offguard": "Deals 1 damage to the opponent and casts weakness on him.",
+		"Leafstorm": "Blinds your opponent for 1 turn.",
+		"Recharge": "Heals 2 damage and cancels bleeding and trauma.",
+		"Natural Fighter [p]": "Defence and attack are boosted by 4%.",
+		"Eagle-eyed [p]": "-3% chance of missing your attacks."
+	}
 }

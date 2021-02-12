@@ -42,7 +42,7 @@ async def join(ctx, category):
 
 		#Database will return an error if there's an existing instance of the name joined. Thus, I'll exploit this to give back an explanatory response
 		try:
-			newfile.data_entry(c, ctx.author.name, category, 0, 0, 0, categdict[category], categitem[category], conn)
+			newfile.data_entry(c, ctx.author.name, category, 0, 0, 0, categdict[category], categitem[category], conn, list(dict.keys(class_descriptions.DefaultMovesets[category])))
 			await ctx.send(f'You have joined the Adventure as {ctx.author.name}, a {category}.\nYou stand at level 0 and have 0 money. Let the adventure begin!!!')
 		except sqlite3.Error as error:
 			await ctx.send('You have already joined! You need not join again.')
@@ -269,6 +269,7 @@ async def moves(ctx, *, ItemName = None):
 		c = conn.cursor()
 		try:
 			#Get data from the db
+			categ = newfile.getCateg(ctx.author.name, c, conn)
 			data1 = newfile.getInventory(c, conn, ctx.author.name)
 			
 			embed1 = discord.Embed(title = "Moves" , description = "The moves available for you are listed below", color = discord.Color(value= int("ff8700", 16)))
@@ -277,7 +278,8 @@ async def moves(ctx, *, ItemName = None):
 				movedict = class_descriptions.Move_Dict[key[0]]
 				for key2 in movedict:
 					embed1.add_field(name= key2, value=class_descriptions.Move_Dict[key[0]][key2])
-
+			for move in class_descriptions.DefaultMovesets[categ]:
+				embed1.add_field(name= move, value= class_descriptions.DefaultMovesets[categ][move])
 			await ctx.send(embed= embed1)
 
 		except sqlite3.Error as error:
@@ -324,10 +326,7 @@ async def addmove(ctx, move):
 
 @AdventBot.command()
 async def moveset(ctx):
-	PlayerMoveset = {"Active": None, "Passive": None}
-	c = conn.cursor()
-	c.execute("SELECT category FROM Usercredentials WHERE name = (?)", (ctx.author.name,))
-	data = c.fetchall()
+	pass
 
 
 AdventBot.run(token)

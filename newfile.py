@@ -1,4 +1,5 @@
 import sqlite3
+import class_descriptions
 
 #So here goes nothing
 conn = sqlite3.connect('database.db')
@@ -16,8 +17,10 @@ def create_table(conn, c):
 	c.execute('CREATE TABLE IF NOT EXISTS Moveset(name TEXT, move1 TEXT, move2 TEXT, move3 TEXT, move4 TEXT, move5 TEXT, passive1 TEXT, passive2 TEXT, standard TEXT, UNIQUE (name))')
 	conn.commit()
 	
-def data_entry(c, name, category, level, money, experience, statlist, mainItem, conn):
+def data_entry(c, name, category, level, money, experience, statlist, mainItem, conn, moves):
 	c.execute("INSERT INTO Equipped (name, Headgear, Lower, Armour, Boots) VALUES (?,?,?,?,?)", (name, "none", "none", "none", "none"))
+
+	c.execute("INSERT INTO Moveset (name, move1, move2, move3, move4, move5, passive1, passive2, standard) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (name, moves[0], moves[1], moves[2], moves[3], moves[4], moves[5], moves[6], "none"))
 		
 	c.execute ("INSERT INTO UserCredentials (name, category, level, money, experience, defence, attack, magic, mainItem) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (name, category, level, money, experience, statlist[0], statlist [1], statlist [2], mainItem))
 	conn.commit()
