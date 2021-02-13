@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
 import newfile
-
 import class_descriptions
 import random
 import sqlite3
@@ -301,7 +300,8 @@ async def addmove(ctx, move):
 		#Get data from the db
 		data1 = newfile.getMainEquipment(c, ctx.author.name)
 		data2 = newfile.getOtherEquipment(c, ctx.author.name)
-		
+		movesetData = newfile.getMoveset(c, ctx.author.name)
+
 		for move1 in class_descriptions.Move_Dict[data1[0][0]]:
 			if  move1 == move:
 				deterchar = 'c'
@@ -326,7 +326,27 @@ async def addmove(ctx, move):
 
 @AdventBot.command()
 async def moveset(ctx):
-	pass
+	c = conn.cursor()
 
+	movesetDat = newfile.getMoveset(c, ctx.author.name)
+	categdat = newfile.getCateg(ctx.author.name, c, conn)
+
+	try:
+		MovesetEmbed = discord.Embed()
+		MovesetEmbed.set_author(name=ctx.author.name, icon_url=ctx.message.author.avatar_url)
+		for move in movesetDat[0]:
+			if move in class_descriptions.DefaultMovesets[categdat]:
+				MovesetEmbed.add_field(name= move, value= class_descriptions.DefaultMovesets[categdat][move])
+
+			for equipment in class_descriptions.Move_Dict:
+				if move in class_descriptions.Move_Dict[equipment]:
+					MovesetEmbed.add_field(name= move, value= class_descriptions.Move_Dict[equipment][move])
+
+
+
+		await ctx.send(embed=MovesetEmbed)
+	except sqlite3.Error as error:
+		await ctx.send("Error encountered!")
+		print(error)
 
 AdventBot.run(token)

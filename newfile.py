@@ -116,3 +116,7 @@ def updateCraftable(c, conn, num, name, craftable):
 	c.execute("UPDATE Inventory SET number_held = (?) WHERE name = (?) AND item_name = (?)", (num, name, craftable))
 	conn.commit()
 
+def getMoveset(c, name):
+	c.execute("SELECT move1, move2, move3, move4, move5, passive1, passive2, standard FROM Moveset WHERE name = (?)", (name,))
+	data = c.fetchall()
+	return data
