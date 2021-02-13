@@ -4,6 +4,7 @@ import newfile
 import class_descriptions
 import random
 import sqlite3
+import asyncio
 
 conn = sqlite3.connect('database.db')	
 conn.execute("PRAGMA foreign_keys = 1")	
@@ -294,6 +295,10 @@ async def moves(ctx, *, ItemName = None):
 
 @AdventBot.command()
 async def addmove(ctx, move):
+	if '[p]' in move:
+		movetype = "passive"
+	else:
+		movetype = "normal"
 	try:
 		c = conn.cursor()
 		deterchar = 'n'
@@ -301,6 +306,14 @@ async def addmove(ctx, move):
 		data1 = newfile.getMainEquipment(c, ctx.author.name)
 		data2 = newfile.getOtherEquipment(c, ctx.author.name)
 		movesetData = newfile.getMoveset(c, ctx.author.name)
+		NorMove1 = movesetData[0][0]
+		NorMove2 = movesetData[0][1]
+		NorMove3 = movesetData[0][2]
+		NorMove4 = movesetData[0][3]
+		NorMove5 = movesetData[0][4]
+		PassMove1 = movesetData[0][5]
+		PassMove2 = movesetData[0][6]
+		Movelist = [NorMove1, NorMove2, NorMove3, NorMove4, NorMove5, PassMove1, PassMove2]
 
 		for move1 in class_descriptions.Move_Dict[data1[0][0]]:
 			if  move1 == move:
@@ -316,7 +329,34 @@ async def addmove(ctx, move):
 									deterchar = 'c'
 				
 		if deterchar == 'c':
-			await ctx.send("Move is available to be added.")
+			desc = ""
+			await ctx.send("Move is available to be added. Loading prompt.")
+			for key in range(0, 7):
+				desc += f"{key + 1} = {Movelist[key]}\n"
+
+			ChangemoveEmbed = discord.Embed(title= "Change your moves", description= desc)
+			await ctx.send(embed=ChangemoveEmbed)
+
+			def check(m):
+				return m.author.id == ctx.author.id and m.channel.id == ctx.channel.id and m.content in ['1', '2', '3', '4', '5', '6', '7']
+
+			try:
+				msg = await AdventBot.wait_for('message', check= check, timeout= 30.0)
+			except asyncio.TimeoutError:
+				await ctx.send("Time ran out! Try again!")
+				return
+
+			else:
+				if movetype == 'normal' and int(msg.content) < 6:
+					movesetType = "move"+ msg.content
+					newfile.moveUpdate(c, conn, ctx.author.name, movesetType, move)
+					await ctx.send("Move replaced successfully!")
+				elif movetype == 'passive' and int(msg.content) > 5:
+					movesetType = "passive"+ str(int(msg.content) - 5)
+					newfile.moveUpdate(c, conn, ctx.author.name, movesetType, move)
+					await ctx.send("Move replaced successfully!")
+				else:
+					await ctx.send("You can only replace Passives with Passives, and Normals with Normal moves.")
 		else:
 			await ctx.send("This move is currently unavailable.")
 
@@ -332,7 +372,7 @@ async def moveset(ctx):
 	categdat = newfile.getCateg(ctx.author.name, c, conn)
 
 	try:
-		MovesetEmbed = discord.Embed()
+		MovesetEmbed = discord.Embed(title= "Moves")
 		MovesetEmbed.set_author(name=ctx.author.name, icon_url=ctx.message.author.avatar_url)
 		for move in movesetDat[0]:
 			if move in class_descriptions.DefaultMovesets[categdat]:
@@ -341,8 +381,6 @@ async def moveset(ctx):
 			for equipment in class_descriptions.Move_Dict:
 				if move in class_descriptions.Move_Dict[equipment]:
 					MovesetEmbed.add_field(name= move, value= class_descriptions.Move_Dict[equipment][move])
-
-
 
 		await ctx.send(embed=MovesetEmbed)
 	except sqlite3.Error as error:

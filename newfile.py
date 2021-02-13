@@ -93,7 +93,11 @@ def collectibleInventory(c, conn, name):
 	c.execute("SELECT collectible, number_held FROM Collectibles WHERE name = (?)", (name,))
 	data = c.fetchall()
 	return data
-	
+
+def moveUpdate(c, conn, name, movetype, move):
+	c.execute(f"UPDATE Moveset SET {movetype} = (?) WHERE name = (?)", (move, name))
+	conn.commit()
+
 def craftableUpdate(c, conn, num, name, craftable):
 	c.execute("UPDATE Inventory SET number_held = (?) WHERE name = (?) AND item_name = (?)", (num, name, craftable))
 	conn.commit()
