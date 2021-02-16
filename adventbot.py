@@ -44,9 +44,8 @@ async def join(ctx, category):
 		try:
 			newfile.data_entry(c, ctx.author.name, category, 0, 0, 0, categdict[category], categitem[category], conn, list(dict.keys(class_descriptions.DefaultMovesets[category])))
 			await ctx.send(f'You have joined the Adventure as {ctx.author.name}, a {category}.\nYou stand at level 0 and have 0 money. Let the adventure begin!!!')
-		except sqlite3.Error as error:
+		except sqlite3.Error:
 			await ctx.send('You have already joined! You need not join again.')
-			await ctx.send(error)
 			
 	else:
 		await ctx.send(f'{category} is not a valid category. Try joining as {categlist[0]}, {categlist[1]}, {categlist[2]}, {categlist[3]}, or {categlist[4]}.')
@@ -165,10 +164,28 @@ async def craft(ctx, *, craftable):
 			
 
 @AdventBot.command()
-async def stats(ctx):
-	try:
+async def stats(ctx, member: discord.Member = None):
+	if member is None:
+		try:
+			c = conn.cursor()
+			c.execute('SELECT category, level, money, experience, defence, attack, magic, mainItem FROM UserCredentials WHERE name = (?)', (ctx.author.name,))
+			data = c.fetchall()
+			category = data [0][0]
+			level = int(data[0][1])
+			money = int(data[0][2])
+			experience = int(data[0][3])
+			defence = int(data[0][4])
+			attack = int(data[0][5])
+			magic = int(data[0][6])
+			mainItem = data[0][7]
+			embedVar = discord.Embed(title = ctx.author.name, description = f'You are a {category} and currently stand at Level {level} with {experience} experience. You have {money} money.\n\nDefence:{defence}\nAttack:{attack}\nMagic:{magic}\nYour main weapon right now is {mainItem}.')
+			embedVar.set_author(name= ctx.author.name, icon_url=ctx.message.author.avatar_url)
+			await ctx.send(embed = embedVar)
+		except:
+			await ctx.send("You haven't joined yet. Try joining now!")
+	else:
 		c = conn.cursor()
-		c.execute('SELECT category, level, money, experience, defence, attack, magic, mainItem FROM UserCredentials WHERE name = (?)', (ctx.author.name,))
+		c.execute('SELECT category, level, money, experience, defence, attack, magic, mainItem FROM UserCredentials WHERE name = (?)', (member.name,))
 		data = c.fetchall()
 		category = data [0][0]
 		level = int(data[0][1])
@@ -178,11 +195,9 @@ async def stats(ctx):
 		attack = int(data[0][5])
 		magic = int(data[0][6])
 		mainItem = data[0][7]
-		embedVar = discord.Embed(title = ctx.author.name, description = f'You are a {category} and currently stand at Level {level} with {experience} experience. You have {money} money.\n\nDefence:{defence}\nAttack:{attack}\nMagic:{magic}\nYour main weapon right now is {mainItem}.')
-		embedVar.set_author(name= ctx.author.name, icon_url=ctx.message.author.avatar_url)
+		embedVar = discord.Embed(title = member.name, description = f'You are a {category} and currently stand at Level {level} with {experience} experience. You have {money} money.\n\nDefence:{defence}\nAttack:{attack}\nMagic:{magic}\nYour main weapon right now is {mainItem}.')
+		embedVar.set_author(name= member.name, icon_url=member.avatar_url)
 		await ctx.send(embed = embedVar)
-	except:
-		await ctx.send("You haven't joined yet. Try joining now!")
 
 @AdventBot.command()
 async def inventory(ctx, member: discord.Member = None):
