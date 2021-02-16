@@ -148,6 +148,7 @@ async def craft(ctx, *, craftable):
 				collectnum = newfile.getCraftableData(c, conn, ctx.author.name, craftable)
 				if not collectnum:
 					newfile.craftableEntry(c, conn, ctx.author.name, craftable)
+					newfile.collectibleUpdate(conn, c, ctx.author.name, required, collected[0][0] - class_descriptions.Crafting_Dict[craftable][required])
 				else:
 					collectnum1 = collectnum[0][0]
 					collectnum1 += 1
@@ -164,7 +165,7 @@ async def craft(ctx, *, craftable):
 			
 
 @AdventBot.command()
-async def stats(ctx, member: discord.Member = None):
+async def stats(ctx,*, member: discord.Member = None):
 	if member is None:
 		try:
 			c = conn.cursor()
