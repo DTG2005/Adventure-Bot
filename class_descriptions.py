@@ -1,4 +1,5 @@
 import random
+from random import choices
 
 categdesc = {'Cleric': 'A Cleric is a Powerful wizard adept in many arts, light and dark alike. His sorcery has greatly reduced his physical strength, but he still stands undefeated in his magical feats. If nothing, he can still entertain your children with his tricks of pulling carrots from a nose.\n\nDefence Base Value: 5\nAttack Base Value: 10\nMagic Base Value: 25',
 		 'Knight': 'A Knight is a pure warrior, a race of humans focused on fighting with a moral intent. They have never seen defeat, for they would choose an honourable death over it anyday. However, they don\'t speak much, which is why you\'re never sure if they\'re really warriors or robots.\n\nDefence Base Value: 15\nAttack Base Value: 20\nMagic Base Value: 10',
@@ -74,14 +75,7 @@ collectibleDesc = { "Wood": ("This is the basic material all adventurers start w
 rarityColour = {"Common": 'a5a5a5', "Rare": '0093ff', "Epic": '9e00ff', "Legendary": 'f1e100'}
 
 def itemRarity():
-	if random.randint(0, 40) == 1:
-		return 'Legendary'
-	elif random.randint(0, 10) == 1:
-		return 'Epic'
-	elif random.randint(0, 10) < 4:
-		return 'Rare'
-	else:
-		return 'Common'
+	return choices(["Legendary", "Epic", "Rare", "Common"], [10, 20, 30, 70], k=1)
 
 rarityItemRandom = { "Common": [1, 10], "Rare": [1, 5], "Epic": [1, 3], "Legendary": [1, 2]}
 

@@ -99,7 +99,7 @@ async def campaign_error(ctx, error):
 @AdventBot.command()
 @commands.cooldown(1, 900, commands.BucketType.user)
 async def mine(ctx):
-	rarity = class_descriptions.itemRarity()
+	rarity = class_descriptions.itemRarity()[0]
 	Item = random.choice(class_descriptions.Items[rarity])
 	int1 = random.randint(class_descriptions.rarityItemRandom[rarity][0], class_descriptions.rarityItemRandom[rarity][1])
 	woodResponses = {"c": f"After a lot of magical practice you could chop down the small tree in your backyard. You got {int1} wood.",
