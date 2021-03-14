@@ -537,3 +537,13 @@ DefaultMovesets = {
 		"Eagle-eyed [p]": "-3% chance of missing your attacks."
 	}
 }
+
+effects = {
+	"Bleeding": "-2 health over each turn.",
+	"Burn": "-3 health over time and inflicts trauma on ending.",
+	"Trauma": "-20% defence",
+	"Fatigue": "-20% attack",
+	"Blindness": "+40% chance of a missed attack",
+	"Shadowflame": "-4 health over each turn and inflicts blindness on ending.",
+	"Poison": "-1 health over each turn."
+}

@@ -403,4 +403,10 @@ async def moveset(ctx):
 		await ctx.send("Error encountered!")
 		print(error)
 
+@AdventBot.command()
+async def effect(ctx, effect):
+	Embed = discord.Embed(title = effect, description = class_descriptions.effects[effect])
+	await ctx.send(embed= Embed)
+
+
 AdventBot.run(token)
