@@ -26,6 +26,7 @@ class AdventBot (commands.Bot):
 		self.conn.execute("PRAGMA foreign_keys = 1")	
 
 		self.load_extension("Displays")
+		self.load_extension("Duels")
 		self.load_extension("Roleplay")
 
 	#So that we know when our sweet bot is ready

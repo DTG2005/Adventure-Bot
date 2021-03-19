@@ -2,6 +2,10 @@ from discord.ext import commands
 import discord
 import class_descriptions
 import newfile
+import sqlite3
+import random
+
+categlist = ["Cleric", "Knight", "Barbarian", "Castellan", "Hunter"]
 
 class Displays(commands.Cog):
 

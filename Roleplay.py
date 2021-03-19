@@ -17,7 +17,7 @@ class Roleplay(commands.Cog):
 	async def join(self, ctx, category):
 		#Database init
 		c = self.bot.conn.cursor()
-		newfile.create_table(conn, c)
+		newfile.create_table(self.bot.conn, c)
 		
 		#Check if category is in there
 		if category in categlist:
@@ -26,7 +26,7 @@ class Roleplay(commands.Cog):
 
 			#Database will return an error if there's an existing instance of the name joined. Thus, I'll exploit this to give back an explanatory response
 			try:
-				newfile.data_entry(c, ctx.author.name, category, 0, 0, 0, categdict[category], categitem[category], self.conn, list(dict.keys(class_descriptions.DefaultMovesets[category])))
+				newfile.data_entry(c, ctx.author.name, category, 0, 0, 0, categdict[category], categitem[category], self.bot.conn, list(dict.keys(class_descriptions.DefaultMovesets[category])))
 				await ctx.send(f'You have joined the Adventure as {ctx.author.name}, a {category}.\nYou stand at level 0 and have 0 money. Let the adventure begin!!!')
 			except sqlite3.Error:
 				await ctx.send('You have already joined! You need not join again.')
@@ -60,13 +60,13 @@ class Roleplay(commands.Cog):
 		dict10 = class_descriptions.lvl_dict(dict1, int(level), exp)
 		await ctx.send(random.choice(dict10[class_descriptions.Categ_determiner[categ]]))
 		if experience < 2*100*(int(level)+1):
-			newfile.campaign_update(ctx.author.name, c, experience, self.conn, level)
+			newfile.campaign_update(ctx.author.name, c, experience, self.bot.conn, level)
 		else:
 			await ctx.send("Level up!!!")
-			newfile.campaign_update(ctx.author.name, c, experience, self.conn, int(level)+1)
+			newfile.campaign_update(ctx.author.name, c, experience, self.bot.conn, int(level)+1)
 		
 	@campaign.error
-	async def campaign_error(ctx, error):
+	async def campaign_error(self, ctx, error):
 		if isinstance(error, commands.CommandOnCooldown):
 			await ctx.send(f"Your Character is tired from going on a campaign. Try again after resting {int(error.retry_after/60)} minutes and {int(error.retry_after%60)} seconds.")
 
@@ -88,9 +88,9 @@ class Roleplay(commands.Cog):
 	"b": f"You saw something shiny on the rock and kept hitting it for some minutes. It broke and gave you {int1} {Item}.",
 	"k": f"You went into the cave to mine into a vein of {Item}. You found {int1} of it.",
 	"ca": f'You ordered your miners to bring you a lot of {Item}. They couldn\'t find a lot there but only {int1}'}
-		c = conn.cursor()
+		c = self.bot.conn.cursor()
 		try:
-			categ = newfile.getCateg(ctx.author.name, c, self.conn)
+			categ = newfile.getCateg(ctx.author.name, c, self.bot.conn)
 		except sqlite3.Error:
 			ctx.send("You haven't joined yet. Do the join command: --join to join now!!!")
 		categChar = class_descriptions.Categ_determiner[categ]
@@ -100,26 +100,26 @@ class Roleplay(commands.Cog):
 			await ctx.send(mineResponses[categChar])
 		data = newfile.collectibleUpdateInfo(c, ctx.author.name, Item)
 		if not data:
-			newfile.collectibleInsert(c, self.conn, ctx.author.name, Item, int1)
+			newfile.collectibleInsert(c, self.bot.conn, ctx.author.name, Item, int1)
 		else:
 			int1 += data[0][0]
-			newfile.collectibleUpdate(self.conn, c, ctx.author.name, Item, int1)
+			newfile.collectibleUpdate(self.bot.conn, c, ctx.author.name, Item, int1)
 
 	@mine.error
-	async def mine_error(ctx, error):
+	async def mine_error(self, ctx, error):
 		if isinstance(error, commands.CommandOnCooldown):
 			await ctx.send(f"Your Character can only mine once in 15 minutes. You can try again in {int(error.retry_after/60)} minutes and {int(error.retry_after%60)} seconds.")
 
 	#database gibberish you'd want to leave out again
 	@commands.command()
 	async def craft(self, ctx, *, craftable):
-		c = self.conn.cursor()
+		c = self.bot.conn.cursor()
 		if craftable in class_descriptions.Crafting_Dict:
 			required = list(class_descriptions.Crafting_Dict[craftable].keys())[0]
 			collected = newfile.getCraftData(c, self.bot.conn, ctx.author.name, required)
 			if collected:
 				if collected[0][0] >= class_descriptions.Crafting_Dict[craftable][required]:
-					await ctx.send(f"You have crafted a {collectible}!!")
+					await ctx.send(f"You have crafted a {craftable}!!")
 					collectnum = newfile.getCraftableData(c, self.bot.conn, ctx.author.name, craftable)
 					if not collectnum:
 						newfile.craftableEntry(c, self.bot.conn, ctx.author.name, craftable)
