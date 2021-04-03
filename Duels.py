@@ -65,6 +65,10 @@ class Duels(commands.Cog):
                         magicP2 = int(data2[0][6])
                         mainItemP2 = data2[0][7]
 
+                        MBoostP1 = 0
+
+                        MBoostP2 = 0
+
                         for key in class_descriptions.Craftables[mainItemP1]:
                             if "Magic Boost" == key:
                                 MBoostP1 = class_descriptions.Craftables[mainItemP1]["Magic Boost"][1]
@@ -74,6 +78,7 @@ class Duels(commands.Cog):
                         for key in class_descriptions.Craftables[mainItemP2]:
                             if "Magic Boost" == key:
                                 MBoostP2 = class_descriptions.Craftables[mainItemP2]["Magic Boost"][1]
+                            
 
                         ABoostP2 = class_descriptions.Craftables[mainItemP2]["Attack Boost"][1]
 
@@ -100,6 +105,24 @@ class Duels(commands.Cog):
     @commands.command()
     async def duelCogTest(self, ctx):
         await ctx.send("Working, yep, Cog's fine.")
+
+    @commands.command()
+    async def surrender(self, ctx):
+        if self.bot.games:
+            deterchar = 'N'
+            for key in self.bot.games:
+                if ctx.author.id in self.bot.games[key]:
+                    deterchar = 'Y'
+                    player2 = "idk someone"
+                    for key2 in range(1, 2):
+                        if ctx.author.id != self.bot.games[key][key2]:
+                            player2 = self.bot.games[key][key2]
+                    await ctx.send(f"{ctx.author.mention} has surrendered! Duel has been won by <@{player2}>.")
+                    self.bot.games.pop(ctx.message.channel.id)
+            if deterchar == 'N':
+                await ctx.send("You are not participating in a duel, so you obviously can't surrender.")
+        else:
+            await ctx.send("There's no duel running. Can't surrender without being in a duel, can ya?")
 
 def setup(bot):
     bot.add_cog(Duels(bot))
