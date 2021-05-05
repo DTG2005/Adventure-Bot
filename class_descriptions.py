@@ -326,7 +326,7 @@ Move_Dict = {
 	},
 	"Wooden Helmet": {
 		"Braceup": "Enables yourself to brace for any incoming attack. +30% chance of a successful block for the next turn.",
-		"Dodge": "You move fast, trying to protect yourself from enemy attack. +30% chance of opponent's attack missing for the nextt turn."
+		"Dodge": "You move fast, trying to protect yourself from enemy attack. +30% chance of opponent's attack missing for the next turn."
 	},
 	"Wooden Mask": {
 		"Longshot": "Increases your range. -10% chance of your attack missing for the next turn.",
@@ -342,7 +342,7 @@ Move_Dict = {
 	},
 	"Iron Helmet": {
 		"Unbreakable": "Enables yourself to brace for any incoming attack. +35% chance of a successful block for the next turn.",
-		"Heads up": "Puts up a powerful shield. +40% chance of a successful block for the next run. Cooldown of a turn."
+		"Heads up": "Puts up a powerful shield. +40% chance of a successful block for the next turn. Cooldown of a turn."
 	},
 	"Ferrum Conduit": {
 		"Medic's praise": "Heals a total of 5 damage and cancels burns and bleeding. Also treats weakness, fatigue and trauma.",
@@ -350,7 +350,7 @@ Move_Dict = {
 	},
 	"Sturdy Face Cover": {
 		"Strengthening": "Casts a force field that strengthens your shield. +30% chance of a successful block for 2 turns.",
-		"Flasher": "Enables you to use two moves during the next turn."
+		"Flasher": "Lessens the opponents' hit chance for the next turn by 30%."
 	},
 	"Silver Staff": {
 		"Reflect [p]": "If the next attack is blocked, the damage and effects are taken by the opponent.",

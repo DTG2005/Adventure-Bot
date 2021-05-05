@@ -3,6 +3,7 @@ import random
 import asyncio
 import discord
 import class_descriptions
+import lore_data
 import sqlite3
 import newfile
 
@@ -22,15 +23,49 @@ class Roleplay(commands.Cog):
 		#Check if category is in there
 		if category in categlist:
 			categdict = {'Cleric': [5, 10, 25], 'Knight': [15, 20, 10], 'Barbarian': [15, 15, 15], 'Castellan': [25, 15, 5], 'Hunter': [10, 15, 20]}
-			categitem = {'Cleric': 'Broken_Staff', 'Knight': 'Stone Crudesword', 'Barbarian': 'Wooden Mace', 'Castellan': 'Stone Gauntlet', 'Hunter': 'Wooden Bow'}
+			Joinemb = discord.Embed(title = "The Tale of Xandelf", description = "The land of everlasting gloom.")
 
-			#Database will return an error if there's an existing instance of the name joined. Thus, I'll exploit this to give back an explanatory response
-			try:
-				newfile.data_entry(c, ctx.author.name, category, 0, 0, 0, categdict[category], categitem[category], self.bot.conn, list(dict.keys(class_descriptions.DefaultMovesets[category])))
-				await ctx.send(f'You have joined the Adventure as {ctx.author.name}, a {category}.\nYou stand at level 0 and have 0 money. Let the adventure begin!!!')
-			except sqlite3.Error:
-				await ctx.send('You have already joined! You need not join again.')
-				
+			tpage = len(lore_data.lore_begin)
+			currpage = 1
+
+			Joinemb.add_field(name= lore_data.lore_begin[currpage-1], value=f"page {currpage}/{tpage}")
+			message = await ctx.send(embed= Joinemb)
+
+
+			await message.add_reaction("◀️")
+			await message.add_reaction("▶️")
+			await message.add_reaction("⏭")
+
+			def check(reaction, user):
+				return user == ctx.author and str(reaction.emoji) in ["⏭", "▶️", "◀️"]
+
+			while True:
+				reaction, user = await self.bot.wait_for("reaction_add", timeout=3000, check = check)
+
+				if str(reaction.emoji) == "▶️" and currpage != tpage:
+					currpage += 1
+					Joinemb2 = discord.Embed(title = "The Tale of Xandelf", description = "The land of everlasting gloom.")
+					Joinemb2.add_field(name= lore_data.lore_begin[	currpage-1], value=f"page {currpage}/{tpage}")
+					await message.edit(embed= Joinemb2)
+					await message.remove_reaction(reaction, user)
+
+				elif str(reaction.emoji) == "◀️" and currpage > 1:
+					currpage -= 1
+					Joinemb2 = discord.Embed(title = "The Tale of Xandelf", description = "The land of everlasting gloom.")
+					Joinemb2.add_field(name= lore_data.lore_begin[currpage-1], value=f"page {currpage}/{tpage}")
+					await message.edit(embed= Joinemb2)
+					await message.remove_reaction(reaction, user)
+
+				elif str(reaction.emoji) == "⏭":
+					#Database will return an error if there's an existing instance of the name joined. Thus, I'll exploit this to give back an explanatory response
+					try:
+						newfile.data_entry(c, ctx.author.name, category, 0, 0, 0, categdict[category], None, self.bot.conn, list(dict.keys(class_descriptions.DefaultMovesets[category])))
+						await ctx.send(f'You have joined the Adventure as {ctx.author.name}, a {category}.\nYou stand at level 0 and have 0 money. Let the adventure begin!!!')
+						await message.remove_reaction(reaction, user)
+					except sqlite3.Error:	
+						await ctx.send('You have already joined! You need not join again.')			
+				else:
+					await message.remove_reaction(reaction, user)
 		else:
 			await ctx.send(f'{category} is not a valid category. Try joining as {categlist[0]}, {categlist[1]}, {categlist[2]}, {categlist[3]}, or {categlist[4]}.')
 		
