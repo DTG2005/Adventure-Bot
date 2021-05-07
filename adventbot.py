@@ -27,6 +27,7 @@ class AdventBot (commands.Bot):
 
 		self.load_extension("Displays")
 		self.load_extension("Misc")
+		self.load_extension("Story")
 #		self.load_extension("Duels")
 		self.load_extension("Roleplay")
 
