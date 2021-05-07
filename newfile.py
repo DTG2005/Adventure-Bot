@@ -12,7 +12,7 @@ def create_table(conn, c):
 
 	c.execute('CREATE TABLE IF NOT EXISTS Collectibles (name TEXT, collectible TEXT, number_held INTEGER)')
 				
-	c.execute('CREATE TABLE IF NOT EXISTS UserCredentials(name TEXT, category TEXT, level TEXT, money INTEGER, experience INTEGER, defence INTEGER, attack INTEGER, magic INTEGER, mainItem TEXT, Unique(name))')
+	c.execute('CREATE TABLE IF NOT EXISTS UserCredentials(name TEXT, category TEXT, level TEXT, money INTEGER, experience INTEGER, defence INTEGER, attack INTEGER, magic INTEGER, mainItem TEXT,storyProgress TEXT, Unique(name))')
 	
 	c.execute('CREATE TABLE IF NOT EXISTS Moveset(name TEXT, move1 TEXT, move2 TEXT, move3 TEXT, move4 TEXT, move5 TEXT, passive1 TEXT, passive2 TEXT, standard TEXT, UNIQUE (name))')
 	conn.commit()
@@ -22,7 +22,7 @@ def data_entry(c, name, category, level, money, experience, statlist, mainItem, 
 
 	c.execute("INSERT INTO Moveset (name, move1, move2, move3, move4, move5, passive1, passive2, standard) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (name, moves[0], moves[1], moves[2], moves[3], moves[4], moves[5], moves[6], "none"))
 		
-	c.execute ("INSERT INTO UserCredentials (name, category, level, money, experience, defence, attack, magic, mainItem) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (name, category, level, money, experience, statlist[0], statlist [1], statlist [2], mainItem))
+	c.execute ("INSERT INTO UserCredentials (name, category, level, money, experience, defence, attack, magic, mainItem, storyProgress) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (name, category, level, money, experience, statlist[0], statlist [1], statlist [2], mainItem, "Pr0"))
 	conn.commit()
 
 def getMainEquipment(c, name):
@@ -34,6 +34,11 @@ def getOtherEquipment(c, name):
 	c.execute("SELECT Headgear, Armour, Lower, Boots FROM Equipped WHERE name = (?)", (name,))
 	data = c.fetchall()
 	return data
+
+def getStoryProgress(c, name):
+	c.execute("SELECT storyProgress FROM UserCredentials WHERE name = (?)", (name,))
+	data = c.fetchall()
+	return data[0][0]
 
 def getall(name, c, category, level, money, experience, defence, attack, magic, mainItem):
 	c.execute('SELECT category, level, money, experience, defence, attack, magic, mainItem FROM UserCredentials WHERE name = (?)', (name,))
