@@ -109,41 +109,46 @@ class Roleplay(commands.Cog):
 	@commands.command()
 	@commands.cooldown(1, 900, commands.BucketType.user)
 	async def mine(self, ctx):
-		rarity = class_descriptions.itemRarity()[0]
-		Item = random.choice(class_descriptions.Items[rarity])
-		int1 = random.randint(class_descriptions.rarityItemRandom[rarity][0], class_descriptions.rarityItemRandom[rarity][1])
-		woodResponses = {"c": f"After a lot of magical practice you could chop down the small tree in your backyard. You got {int1} wood.",
-	"h": f"You smashed down an entire tree using your strength. You got {int1} wood.",
-	'b': f"You just gutted an entire tree as if it were some small sapling. You got {int1} wood.",
-	'k': f"As the church ordered, you chopped down an unholy tree. The church lets you keep {int1} wood.",
-	'ca': f"You ordered your royal servants to chop you some wood. They got you {int1} wood."}
-
-		mineResponses = { "c": f"You mined for an hour and could finally get {int1} {Item}.",
-	"h": f"You went into the cave to take whatever mother earth had to offer. You got {int1} {Item}.",
-	"b": f"You saw something shiny on the rock and kept hitting it for some minutes. It broke and gave you {int1} {Item}.",
-	"k": f"You went into the cave to mine into a vein of {Item}. You found {int1} of it.",
-	"ca": f'You ordered your miners to bring you a lot of {Item}. They couldn\'t find a lot there but only {int1}'}
-		c = self.bot.conn.cursor()
 		try:
-			categ = newfile.getCateg(ctx.author.name, c, self.bot.conn)
-		except sqlite3.Error:
-			ctx.send("You haven't joined yet. Do the join command: --join to join now!!!")
-		categChar = class_descriptions.Categ_determiner[categ]
-		if Item == "Wood":
-			await ctx.send(woodResponses[categChar])
-		else:
-			await ctx.send(mineResponses[categChar])
-		data = newfile.collectibleUpdateInfo(c, ctx.author.name, Item)
-		if not data:
-			newfile.collectibleInsert(c, self.bot.conn, ctx.author.name, Item, int1)
-		else:
-			int1 += data[0][0]
-			newfile.collectibleUpdate(self.bot.conn, c, ctx.author.name, Item, int1)
+			rarity = class_descriptions.itemRarity()[0]
+			Item = random.choice(class_descriptions.Items[rarity])
+			int1 = random.randint(class_descriptions.rarityItemRandom[rarity][0], class_descriptions.rarityItemRandom[rarity][1])
+			woodResponses = {"c": f"After a lot of magical practice you could chop down the small tree in your backyard. You got {int1} wood.",
+		"h": f"You smashed down an entire tree using your strength. You got {int1} wood.",
+		'b': f"You just gutted an entire tree as if it were some small sapling. You got {int1} wood.",
+		'k': f"As the church ordered, you chopped down an unholy tree. The church lets you keep {int1} wood.",
+		'ca': f"You ordered your royal servants to chop you some wood. They got you {int1} wood."}
+
+			mineResponses = { "c": f"You mined for an hour and could finally get {int1} {Item}.",
+		"h": f"You went into the cave to take whatever mother earth had to offer. You got {int1} {Item}.",
+		"b": f"You saw something shiny on the rock and kept hitting it for some minutes. It broke and gave you {int1} {Item}.",
+		"k": f"You went into the cave to mine into a vein of {Item}. You found {int1} of it.",
+		"ca": f'You ordered your miners to bring you a lot of {Item}. They couldn\'t find a lot there but only {int1}'}
+			c = self.bot.conn.cursor()
+			try:
+				categ = newfile.getCateg(ctx.author.name, c, self.bot.conn)
+			except sqlite3.Error:
+				ctx.send("You haven't joined yet. Do the join command: --join to join now!!!")
+			categChar = class_descriptions.Categ_determiner[categ]
+			if Item == "Wood":
+				await ctx.send(woodResponses[categChar])
+			else:
+				await ctx.send(mineResponses[categChar])
+			data = newfile.collectibleUpdateInfo(c, ctx.author.name, Item)
+			if not data:
+				newfile.collectibleInsert(c, self.bot.conn, ctx.author.name, Item, int1)
+			else:
+				int1 += data[0][0]
+				newfile.collectibleUpdate(self.bot.conn, c, ctx.author.name, Item, int1)
+		except IndexError:
+			await ctx.send("It seems you have not joined yet. Join using the join command to collect your mined reward.")
 
 	@mine.error
 	async def mine_error(self, ctx, error):
 		if isinstance(error, commands.CommandOnCooldown):
 			await ctx.send(f"Your Character can only mine once in 15 minutes. You can try again in {int(error.retry_after/60)} minutes and {int(error.retry_after%60)} seconds.")
+		if isinstance(error, IndexError):
+			await ctx.send("It seems you have not joined yet. Join using the join command to collect your mined reward.")
 
 	#database gibberish you'd want to leave out again
 	@commands.command()
