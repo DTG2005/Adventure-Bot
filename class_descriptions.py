@@ -23,7 +23,7 @@ categtip = {'Cleric': ['Don\'t try to take a lot of risk; you\'re terribly fragi
 		'Your defence is too great to bear. Use yourself as a tank. The enemy could not stsnd it.',
 		'The castellan has a heavy armoue for his protection. This is some useful heavy stuff.',
 		'The diplomatic adventures might make you richer, depended on how you see them.'],
-		'Hunter': ['You live on the energy of the nature dude. You are cool af <:shadysmirk:459055417658441743>.',
+		'Hunter': ['You live on the energy of the nature dude. You are cool af!',
 		'Use your attack and magic strength to wreak havoc on the battlefield.',
 		'Hunter is a pretty balanced class, so try to use it strategically to your benefit',
 		'The Hunter can use Cleric\'s equipment, but Cleric cannot use those of Hunter. You got an advantage, dude']}

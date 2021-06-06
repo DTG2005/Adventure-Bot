@@ -31,8 +31,7 @@ class Misc(commands.Cog):
 
     @commands.command
     async def ping(self, ctx):
-        await ctx.send(self.bot.latency)
-
+        await ctx.send(f"Pong! {self.bot.latency}")
     @commands.command
     async def eval(self, ctx, *, cmd):
         fn_name = "_eval_expr"
