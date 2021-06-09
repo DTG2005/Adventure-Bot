@@ -8,14 +8,18 @@ import sqlite3
 class Story_Mode(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.c = self.bot.conn.cursor()
+        self.conn = sqlite3.connect("database.db")
+        self.c = self.conn.cursor()
 
     @commands.command()
     async def storycampaign(self, ctx):
         try:
-            category = newfile.getCateg(ctx.author.name, self.c, self.bot.conn)
-        except sqlite3.Error:
+            self.c.execute('SELECT category FROM UserCredentials WHERE name = (?)', (ctx.author.name,))
+            data = self.c.fetchall()
+            category = data[0][0]	
+        except sqlite3.Error as e:
             await ctx.send("It doesn't seem like you have joined yet. Run ```--join <category>``` to join.")
+            print (e)
             return 
         
         ProgressText = ""
