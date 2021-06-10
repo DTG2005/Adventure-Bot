@@ -177,5 +177,40 @@ class Displays(commands.Cog):
 			await ctx.send("Error encountered!")
 			print(error)
 
+	@commands.command()
+	async def equipment(self, ctx, user : discord.Member = None):
+		if user is not None:
+			c = self.bot.conn.cursor()
+			try:
+				mainEquipment = newfile.getMainEquipment(c, user.name)[0][0]
+				otherEquipment = newfile.getOtherEquipment(c, user.name)
+
+				embed1 = discord.Embed(title = "Equipment", description = "This is the description of the equipment you hold", color= discord.Color.orange)
+				embed1.add_field(name= "Main Equipment", value= mainEquipment)
+				displayDict = {0: "Headgear", 1 : "Lower", 2 : "Armour", 3: "Boots"}
+				for element in displayDict:
+					embed1.add_field(name=displayDict[element], value=otherEquipment[0][element])
+				embed1.set_author(name= user.name, icon_url=user.avatar_url)
+				
+				await ctx.send(embed = embed1)
+			except sqlite3.Error as e:
+				await ctx.send("It seems you haven't joined. Please join to have a valid equipment.")
+		else:
+			c = self.bot.conn.cursor()
+			try:
+				mainEquipment = newfile.getMainEquipment(c, ctx.author.name)[0][0]
+				otherEquipment = newfile.getOtherEquipment(c, ctx.author.name)
+
+				embed1 = discord.Embed(title = "Equipment", description = "This is the description of the equipment you hold", color= discord.Color.orange())
+				embed1.add_field(name= "Main Equipment", value= mainEquipment)
+				displayDict = {0: "Headgear", 1 : "Lower", 2 : "Armour", 3: "Boots"}
+				for element in displayDict:
+					embed1.add_field(name=displayDict[element], value=otherEquipment[0][element])
+				embed1.set_author(name= ctx.author.name, icon_url=ctx.author.avatar_url)
+				
+				await ctx.send(embed = embed1)
+			except sqlite3.Error as e:
+				await ctx.send("It seems you haven't joined. Please join to have a valid equipment.")
+
 def setup(bot):
     bot.add_cog(Displays(bot))
