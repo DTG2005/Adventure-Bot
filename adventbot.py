@@ -23,7 +23,7 @@ token = read_token()
 class AdventBot (commands.Bot):
     def __init__(self):
         super().__init__(
-            command_prefix= "a-",
+            command_prefix= "--",
             case_insenitive = True,
             self_bot = False,
             activity = discord.Activity(type=discord.ActivityType.listening, name='Your Lovely Voice.'),
