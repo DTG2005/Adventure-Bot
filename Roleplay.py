@@ -62,8 +62,9 @@ class Roleplay(commands.Cog):
 						newfile.data_entry(c, ctx.author.name, category, 0, 0, 0, categdict[category], None, self.bot.conn, list(dict.keys(class_descriptions.DefaultMovesets[category])))
 						await ctx.send(f'You have joined the Adventure as {ctx.author.name}, a {category}.\nYou stand at level 0 and have 0 money. Let the adventure begin!!!')
 						await message.remove_reaction(reaction, user)
-					except sqlite3.Error:	
+					except sqlite3.Error as e:	
 						await ctx.send('You have already joined! You need not join again.')			
+						print (e)
 				else:
 					await message.remove_reaction(reaction, user)
 		else:
