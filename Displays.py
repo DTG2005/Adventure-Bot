@@ -45,7 +45,7 @@ class Displays(commands.Cog):
 				embedVar = discord.Embed(title = ctx.author.name, description = f'You are a {category} and currently stand at Level {level} with {experience} experience. You have {money} money.\n\nDefence:{defence}\nAttack:{attack}\nMagic:{magic}\nYour main weapon right now is {mainItem}.')
 				embedVar.set_author(name= ctx.author.name, icon_url=ctx.message.author.avatar_url)
 				await ctx.send(embed = embedVar)
-			except:
+			except sqlite3.Error as error:
 				await ctx.send("You haven't joined yet. Try joining now!")
 		else:
 			c = self.bot.conn.cursor()
