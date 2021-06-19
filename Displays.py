@@ -60,7 +60,7 @@ class Displays(commands.Cog):
 			magic = int(data[0][6])
 			mainItem = data[0][7]
 			embedVar = discord.Embed(title = member.name, description = f'You are a {category} and currently stand at Level {level} with {experience} experience. You have {money} money.\n\nDefence:{defence}\nAttack:{attack}\nMagic:{magic}\nYour main weapon right now is {mainItem}.')
-			embedVar.set_author(name= member.name, icon_url=member.avatar_url)
+			#embedVar.set_author(name= member.name, icon_url=member.avatar_url)
 			await ctx.send(embed = embedVar)
 
 	@commands.command(aliases=['craftables'])
